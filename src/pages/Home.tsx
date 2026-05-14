@@ -20,6 +20,7 @@ const Home = () => {
     if (loginData.username === "superadmin" && loginData.password === "1Fsadmin1966") {
       setTimeout(() => {
         sessionStorage.setItem("isAdmin", "true");
+        sessionStorage.setItem("userRole", "super_admin");
         toast.success("Connexion réussie ! Bienvenue superadmin.");
         navigate("/dashboard");
         setIsLoading(false);

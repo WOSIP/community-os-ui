@@ -13,9 +13,37 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     email TEXT NOT NULL,
     role admin_role NOT NULL DEFAULT 'read_only',
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    first_name TEXT,
+    last_name TEXT,
+    phone TEXT,
+    gender TEXT,
+    age INTEGER,
+    profile_picture_url TEXT,
+    passport_id TEXT,
+    national_id TEXT,
+    agent_id TEXT UNIQUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
+
+-- Function to generate agent_id
+CREATE OR REPLACE FUNCTION generate_agent_id()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.agent_id IS NULL THEN
+        NEW.agent_id := 'AGT-' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::text, '-', '') FROM 1 FOR 8));
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for agent_id
+DROP TRIGGER IF EXISTS tr_generate_agent_id ON public.profiles;
+CREATE TRIGGER tr_generate_agent_id
+    BEFORE INSERT ON public.profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION generate_agent_id();
 
 -- Create applications table
 CREATE TABLE IF NOT EXISTS public.applications (
@@ -93,8 +121,8 @@ WHERE status IN ('accepted', 'active', 'exclusive', 'non_exclusive');
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-    INSERT INTO public.profiles (id, email, role)
-    VALUES (new.id, new.email, 'read_only');
+    INSERT INTO public.profiles (id, email, role, is_active)
+    VALUES (new.id, new.email, 'read_only', TRUE);
     RETURN new;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
