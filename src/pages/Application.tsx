@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,21 +6,29 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { COUNTRIES, EXCLUDED_COUNTRIES } from "../lib/constants";
-import { FileUp, ChevronRight, ChevronLeft, CheckCircle2, ShieldCheck, User, Briefcase, Globe, Target, Banknote } from "lucide-react";
+import { FileUp, ChevronRight, ChevronLeft, CheckCircle2, ShieldCheck, User, Briefcase, Globe, Target, Banknote, FileText } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 const Application = () => {
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const location = useLocation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
+    // 1. Coordonnées personnelles
     name: "", birth: "", nationality: "", email: "", phone: "", address: "",
-    bizName: "", status: "", bizCountry: "", year: "", bizAddress: "", sector: "", employees: "", ca: "",
+    // 2. Business
+    bizName: "", bizStatus: "", bizCountry: "", bizYear: "", bizAddress: "", bizSector: "", bizEmployees: "", bizCA: "",
+    // 3. Territoire visé
     targetTerritory: "",
+    // 4. Expérience
     expYears: "", isExistingFranchisee: "", network: "", motivation: "",
+    // 5. Capacité financière
     budget: "", schedule: "", deposit: "",
-    cvFile: null,
+    // 6. Upload CV
+    cvFile: null as File | null,
+    // 7. Consentement
     consent: false
   });
 
@@ -34,17 +42,36 @@ const Application = () => {
   }, [location]);
 
   const nextStep = () => {
-    if (step === 1 && (!formData.name || !formData.email)) {
-      toast.error("Veuillez remplir les informations obligatoires.");
+    if (step === 1 && (!formData.name || !formData.email || !formData.phone)) {
+      toast.error("Veuillez remplir les informations obligatoires (Nom, Email, Téléphone).");
+      return;
+    }
+    if (step === 2 && (!formData.bizName || !formData.bizSector)) {
+      toast.error("Veuillez renseigner au moins le nom et le secteur de votre business.");
+      return;
+    }
+    if (step === 3 && !formData.targetTerritory) {
+      toast.error("Veuillez sélectionner un territoire.");
+      return;
+    }
+    if (step === 6 && !formData.cvFile) {
+      toast.error("Veuillez télécharger votre CV au format PDF.");
       return;
     }
     if (step === 7 && !formData.consent) {
       toast.error("Veuillez accepter les conditions pour continuer.");
       return;
     }
-    setStep(s => s + 1);
+    if (step < 7) {
+      setStep(s => s + 1);
+      window.scrollTo(0, 0);
+    }
   };
-  const prevStep = () => setStep(s => s - 1);
+  
+  const prevStep = () => {
+    setStep(s => s - 1);
+    window.scrollTo(0, 0);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,13 +83,24 @@ const Application = () => {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.type !== "application/pdf") {
+        toast.error("Seuls les fichiers PDF sont acceptés.");
+        return;
+      }
+      setFormData({ ...formData, cvFile: file });
+    }
+  };
+
   const steps = [
     { title: "Coordonnées", icon: User },
     { title: "Business", icon: Briefcase },
     { title: "Territoire", icon: Globe },
     { title: "Expérience", icon: Target },
     { title: "Finance", icon: Banknote },
-    { title: "Documents", icon: FileUp },
+    { title: "CV", icon: FileText },
     { title: "Validation", icon: ShieldCheck }
   ];
 
@@ -149,6 +187,31 @@ const Application = () => {
               </motion.div>
             )}
 
+            {step === 2 && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step2" className="space-y-8">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold uppercase tracking-tight">2. Informations Business</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Détails de votre structure actuelle.</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Nom de l'entreprise</Label><Input required value={formData.bizName} onChange={e => setFormData({...formData, bizName: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Statut Juridique</Label><Input required value={formData.bizStatus} onChange={e => setFormData({...formData, bizStatus: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Ex: SAS, SARL..." /></div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Pays d'immatriculation</Label><Input required value={formData.bizCountry} onChange={e => setFormData({...formData, bizCountry: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Année de création</Label><Input type="number" required value={formData.bizYear} onChange={e => setFormData({...formData, bizYear: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                </div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Adresse de l'entreprise</Label><Input required value={formData.bizAddress} onChange={e => setFormData({...formData, bizAddress: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                <div className="grid md:grid-cols-2 gap-6">
+                   <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Secteur d'activité</Label><Input required value={formData.bizSector} onChange={e => setFormData({...formData, bizSector: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                   <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Employés</Label><Input type="number" value={formData.bizEmployees} onChange={e => setFormData({...formData, bizEmployees: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">CA Annuel</Label><Input value={formData.bizCA} onChange={e => setFormData({...formData, bizCA: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                   </div>
+                </div>
+              </motion.div>
+            )}
+
             {step === 3 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step3" className="space-y-8">
                 <div className="space-y-1">
@@ -173,11 +236,98 @@ const Application = () => {
               </motion.div>
             )}
 
-            {step !== 1 && step !== 3 && step !== 7 && (
-               <div className="py-16 text-center">
-                 <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Étape {step} en cours de configuration...</p>
-                 <p className="text-[10px] text-gray-600 mt-2">Poursuivez vers l'étape suivante.</p>
-               </div>
+            {step === 4 && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step4" className="space-y-8">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold uppercase tracking-tight">4. Expérience & Motivations</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Votre parcours et votre intérêt pour Helloopass.</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Années d'expérience</Label><Input type="number" required value={formData.expYears} onChange={e => setFormData({...formData, expYears: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Franchise existante ?</Label>
+                    <select 
+                      className="w-full h-12 px-5 rounded-xl bg-black border border-white/10 text-white text-base appearance-none cursor-pointer focus:border-orange-500"
+                      value={formData.isExistingFranchisee}
+                      onChange={e => setFormData({...formData, isExistingFranchisee: e.target.value})}
+                    >
+                      <option value="">Choisir...</option>
+                      <option value="Oui">Oui</option>
+                      <option value="Non">Non</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Réseau actuel (si applicable)</Label><Input value={formData.network} onChange={e => setFormData({...formData, network: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Nom du réseau, nombre de points de vente..." /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Vos motivations</Label><Textarea required value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} className="bg-black border-white/10 min-h-[120px] text-base rounded-xl px-5 py-3 resize-none" placeholder="Pourquoi souhaitez-vous rejoindre le réseau Helloopass ?" /></div>
+              </motion.div>
+            )}
+
+            {step === 5 && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step5" className="space-y-8">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold uppercase tracking-tight">5. Capacité Financière</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Évaluation des ressources pour le déploiement.</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Budget Global (USD/EUR)</Label><Input required value={formData.budget} onChange={e => setFormData({...formData, budget: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Acompte disponible immédiatement</Label><Input required value={formData.deposit} onChange={e => setFormData({...formData, deposit: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                </div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Proposition d'échelonnement</Label><Textarea value={formData.schedule} onChange={e => setFormData({...formData, schedule: e.target.value})} className="bg-black border-white/10 min-h-[100px] text-base rounded-xl px-5 py-3 resize-none" placeholder="Précisez vos besoins ou propositions d'échelonnement..." /></div>
+                <div className="p-4 bg-zinc-900/50 rounded-xl border border-white/5">
+                   <p className="text-zinc-500 text-[9px] uppercase tracking-wider font-bold">Note: Ces informations sont confidentielles et servent uniquement à évaluer la faisabilité du projet.</p>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 6 && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step6" className="space-y-8">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold uppercase tracking-tight">6. Upload CV</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Fichier au format PDF exclusivement.</p>
+                </div>
+                <div 
+                  className="border-2 border-dashed border-white/10 rounded-2xl p-12 text-center cursor-pointer hover:border-orange-500/50 transition-colors"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    className="hidden" 
+                    accept=".pdf" 
+                    onChange={handleFileChange} 
+                  />
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center">
+                      <FileUp size={28} className={formData.cvFile ? "text-orange-500" : "text-zinc-600"} />
+                    </div>
+                    <div>
+                      <p className="text-base font-bold uppercase tracking-tight">{formData.cvFile ? formData.cvFile.name : "Cliquez pour choisir un fichier"}</p>
+                      <p className="text-zinc-500 text-xs mt-1 font-medium">Maximum 5MB • PDF uniquement</p>
+                    </div>
+                  </div>
+                </div>
+                {formData.cvFile && (
+                   <div className="flex items-center gap-3 p-4 bg-zinc-900 rounded-xl border border-white/5">
+                      <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                         <FileText size={20} className="text-orange-500" />
+                      </div>
+                      <div className="flex-1">
+                         <p className="text-sm font-bold truncate">{formData.cvFile.name}</p>
+                         <p className="text-[10px] text-zinc-500 uppercase">PDF prêt pour l'envoi</p>
+                      </div>
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        className="text-zinc-500 hover:text-white" 
+                        onClick={(e) => { 
+                          e.stopPropagation(); 
+                          setFormData({...formData, cvFile: null});
+                        }}
+                      >
+                        Supprimer
+                      </Button>
+                   </div>
+                )}
+              </motion.div>
             )}
 
             {step === 7 && (
@@ -187,17 +337,22 @@ const Application = () => {
                   <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Dernière étape.</p>
                 </div>
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4 p-6 bg-zinc-900 rounded-2xl border border-white/5">
-                    <input 
-                      type="checkbox" 
-                      id="consent-check"
-                      className="mt-1 h-5 w-5 rounded border-white/10 bg-black text-orange-500 focus:ring-orange-500 cursor-pointer shrink-0" 
-                      checked={formData.consent}
-                      onChange={e => setFormData({...formData, consent: e.target.checked})}
-                    />
-                    <label htmlFor="consent-check" className="text-gray-400 text-base leading-relaxed cursor-pointer font-medium">
-                      Je certifie que les informations fournies sont exactes. J'accepte le traitement de mes données pour l'examen de ma candidature.
-                    </label>
+                  <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 space-y-4">
+                    <p className="text-sm text-zinc-400 leading-relaxed">
+                      En soumettant ce formulaire, vous reconnaissez que les informations fournies sont exactes et véridiques. Helloopass OS s'engage à traiter vos données de manière confidentielle conformément à sa politique de confidentialité.
+                    </p>
+                    <div className="flex items-start gap-4 pt-4 border-t border-white/5">
+                      <input 
+                        type="checkbox" 
+                        id="consent-check"
+                        className="mt-1 h-5 w-5 rounded border-white/10 bg-black text-orange-500 focus:ring-orange-500 cursor-pointer shrink-0" 
+                        checked={formData.consent}
+                        onChange={e => setFormData({...formData, consent: e.target.checked})}
+                      />
+                      <label htmlFor="consent-check" className="text-gray-300 text-sm leading-relaxed cursor-pointer font-medium">
+                        Je certifie que les informations fournies sont exactes. J'accepte le traitement de mes données pour l'examen de ma candidature.
+                      </label>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -211,9 +366,13 @@ const Application = () => {
               </Button>
             ) : <div />}
             
-            <Button type="submit" className="bg-orange-500 hover:bg-orange-600 h-12 px-8 text-base font-bold rounded-xl shadow-lg">
+            <Button type="button" onClick={step === 7 ? undefined : nextStep} className="bg-orange-500 hover:bg-orange-600 h-12 px-8 text-base font-bold rounded-xl shadow-lg">
               {step === 7 ? "Soumettre Dossier" : "Suivant"} <ChevronRight className="ml-2" size={18} />
             </Button>
+            {/* Note: In step 7, the button click is handled by the form submit or an onClick that triggers submission */}
+            {step === 7 && (
+               <button type="submit" className="hidden" id="hidden-submit-btn" />
+            )}
           </div>
         </form>
       </div>

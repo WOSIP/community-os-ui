@@ -1,8 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Linkedin, Twitter, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, Linkedin, Twitter, ArrowUpRight, Lock } from "lucide-react";
 
 const Footer = () => {
+  const scrollToAdmin = (e: React.MouseEvent) => {
+    const adminSection = document.getElementById("admin-login");
+    if (adminSection && window.location.pathname === "/") {
+      e.preventDefault();
+      adminSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="bg-black border-t border-white/5 pt-16 pb-10 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,6 +71,15 @@ const Footer = () => {
                   World Open Services R&D BV <br />
                   Amsterdam, NL
                 </span>
+              </li>
+              <li className="pt-2">
+                <Link 
+                  to="/#admin-login" 
+                  onClick={scrollToAdmin}
+                  className="flex items-center gap-2 text-zinc-600 hover:text-orange-500 transition-colors text-[9px] font-bold uppercase tracking-widest group"
+                >
+                  <Lock size={12} className="group-hover:animate-pulse" /> Accès Admin
+                </Link>
               </li>
             </ul>
           </div>

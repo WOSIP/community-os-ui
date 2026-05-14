@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Globe, Shield, Zap, TrendingUp, Smartphone, Clock, CheckCircle } from "lucide-react";
+import { ArrowRight, Globe, Shield, Zap, TrendingUp, Smartphone, Clock, CheckCircle, Lock, User, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "react-router-dom";
 import { REASONS, IMAGES } from "../lib/constants";
+import { toast } from "sonner";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Hardcoded credentials per request
+    if (loginData.username === "superadmin" && loginData.password === "1Fsadmin1966") {
+      setTimeout(() => {
+        sessionStorage.setItem("isAdmin", "true");
+        toast.success("Connexion réussie ! Bienvenue superadmin.");
+        navigate("/dashboard");
+        setIsLoading(false);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        toast.error("Identifiants incorrects. Veuillez réessayer.");
+        setIsLoading(false);
+      }, 1000);
+    }
+  };
+
   return (
     <div className="bg-black text-white selection:bg-orange-500/30">
       {/* Hero Section */}
@@ -94,23 +120,23 @@ const Home = () => {
         <div className="grid md:grid-cols-2 gap-px bg-white/10 rounded-[1.5rem] overflow-hidden border border-white/10 shadow-xl">
           <div className="bg-zinc-950 p-8 md:p-12 text-center md:text-left">
             <div className="flex flex-col md:flex-row items-center gap-4 mb-8">
-              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10 shrink-0">
-                <Shield className="text-gray-400" size={20} />
+              <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center border border-blue-500/20 shrink-0">
+                <Shield className="text-blue-500" size={20} />
               </div>
-              <span className="text-xl font-bold text-gray-500 uppercase">Visa</span>
-              <span className="text-[9px] font-bold text-gray-600 uppercase tracking-widest mt-1">Infrastructure Banques</span>
+              <span className="text-xl font-bold text-blue-500 uppercase">Visa</span>
+              <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest mt-1">Infrastructure Banques</span>
             </div>
             <ul className="space-y-6">
               <li className="flex gap-4 items-start">
-                <div className="w-5 h-5 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-600 text-[10px] font-bold shrink-0">1</div>
+                <div className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-[10px] font-bold shrink-0">1</div>
                 <p className="text-base text-gray-400">Fournit l'infrastructure aux <span className="text-white font-bold">Banques</span> uniquement.</p>
               </li>
               <li className="flex gap-4 items-start">
-                <div className="w-5 h-5 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-600 text-[10px] font-bold shrink-0">2</div>
+                <div className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-[10px] font-bold shrink-0">2</div>
                 <p className="text-base text-gray-400">Cible les <span className="text-white font-bold">Clients bancarisés</span> individuels.</p>
               </li>
               <li className="flex gap-4 items-start">
-                <div className="w-5 h-5 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-600 text-[10px] font-bold shrink-0">3</div>
+                <div className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-[10px] font-bold shrink-0">3</div>
                 <p className="text-base text-gray-400">Nécessite des <span className="text-white font-bold">Licences e-money</span> lourdes et complexes.</p>
               </li>
             </ul>
@@ -238,26 +264,66 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonial */}
-      <section className="py-20 bg-black border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-zinc-950 p-10 md:p-14 rounded-[2.5rem] border border-white/5 relative overflow-hidden">
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <blockquote className="text-lg md:text-xl font-medium text-gray-300 mb-8 leading-relaxed italic">
-                « Helloopass a radicalement transformé l'économie de nos communautés agricoles en Côte d'Ivoire. Nous avons créé une boucle de valeur autonome, sans dépendre des banques traditionnelles. »
-              </blockquote>
-              <div className="flex flex-col items-center gap-2.5">
-                <img 
-                  src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&q=80&w=200&h=200" 
-                  alt="Dawid Worku" 
-                  className="w-14 h-14 rounded-full border-2 border-orange-500 p-0.5 shadow-lg"
+      {/* Admin Login Section */}
+      <section id="admin-login" className="py-24 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-from),_transparent_50%)] from-orange-500/5"></div>
+        <div className="max-w-md mx-auto px-4 relative z-10">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 text-orange-500 mb-4">
+              <Lock size={20} />
+            </div>
+            <h2 className="text-2xl font-bold uppercase tracking-tight mb-2">Accès Backend</h2>
+            <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em]">Réservé aux administrateurs</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Identifiant</label>
+              </div>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+                <Input 
+                  type="text" 
+                  placeholder="Username" 
+                  className="bg-black border-white/10 h-12 pl-12 rounded-xl text-sm focus:border-orange-500 transition-all"
+                  value={loginData.username}
+                  onChange={(e) => setLoginData({...loginData, username: e.target.value})}
+                  required
                 />
-                <div>
-                  <div className="font-bold text-base uppercase tracking-tight">Dawid Worku</div>
-                  <div className="text-orange-500 font-bold uppercase tracking-widest text-[9px]">Franchisé Pays - Côte d'Ivoire</div>
-                </div>
               </div>
             </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Mot de passe</label>
+              </div>
+              <div className="relative">
+                <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  className="bg-black border-white/10 h-12 pl-12 rounded-xl text-sm focus:border-orange-500 transition-all"
+                  value={loginData.password}
+                  onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                  required
+                />
+              </div>
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full bg-orange-500 hover:bg-orange-600 h-12 text-sm font-bold rounded-xl uppercase tracking-widest transition-all shadow-lg shadow-orange-500/10"
+              disabled={isLoading}
+            >
+              {isLoading ? "Connexion..." : "Se connecter"}
+            </Button>
+          </form>
+
+          <div className="mt-8 p-4 bg-orange-500/5 border border-orange-500/10 rounded-xl">
+            <p className="text-[8px] text-zinc-500 text-center uppercase tracking-widest leading-relaxed">
+              En accédant à cet espace, vous acceptez les conditions de sécurité et de confidentialité de World Open Services BV.
+            </p>
           </div>
         </div>
       </section>

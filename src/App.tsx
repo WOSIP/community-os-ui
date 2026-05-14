@@ -11,6 +11,8 @@ import Process from "./pages/Process";
 import Contact from "./pages/Contact";
 import Application from "./pages/Application";
 import ContractModels from "./pages/ContractModels";
+import FAQ from "./pages/FAQ";
+import Dashboard from "./pages/Dashboard";
 import { useEffect } from "react";
 
 // Scroll to top on route change
@@ -37,6 +39,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/candidature" element={<Application />} />
           <Route path="/modeles-contrat" element={<ContractModels />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Layout>
       <Toaster position="top-center" richColors theme="dark" closeButton />

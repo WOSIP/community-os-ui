@@ -16,7 +16,7 @@ export const COUNTRIES = [
   "Yemen", "Zimbabwe"
 ];
 
-export const EXCLUDED_COUNTRIES = ["Nigeria", "Ghana", "Ethiopia", "Morocco", "Zambia", "Kenya"];
+export const EXCLUDED_COUNTRIES = ["Nigeria", "Ghana", "Ethiopia", "Morocco", "Zambia", "Kenya", "Canada", "Netherlands", "Senegal"];
 
 export const REASONS = [
   { 

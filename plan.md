@@ -1,12 +1,5 @@
-1.  **Modify `src/pages/Home.tsx`**:
-    *   Locate the "Pourquoi nous rejoindre ?" section.
-    *   Increase the visibility of the numbers (01, 02, etc.) for mobile views.
-    *   Change the class `text-orange-500/20` to `text-orange-500/60` (or similar high visibility) for mobile, and maintain a more subtle `md:text-orange-500/20` for larger screens if appropriate.
-
-2.  **Modify `src/pages/Why.tsx`**:
-    *   Locate the numbered list of reasons.
-    *   Apply a similar visibility improvement to the numbers.
-    *   Change `opacity-20` to `opacity-60 md:opacity-20`.
-
-3.  **Validate**:
-    *   Run `validate_build` to ensure no syntax errors.
+1. Read the `src/pages/Home.tsx` file.
+2. Locate the text "INFRASTRUCTURE BANQUES".
+3. Apply Tailwind CSS class `text-blue-500` (or a similar appropriate blue shade) to the element containing this text.
+4. Ensure no other part of the homepage or application is affected.
+5. Verify the change on the homepage.

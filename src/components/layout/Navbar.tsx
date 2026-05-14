@@ -21,8 +21,9 @@ const Navbar = () => {
     { name: "Business", path: "/modele-economique" },
     { name: "Pays", path: "/territoires" },
     { name: "Calculateur", path: "/prix" },
-    { name: "Étapes", path: "/processus" },
+    { name: "\u00c9tapes", path: "/processus" },
     { name: "Droit", path: "/modeles-contrat" },
+    { name: "FAQ", path: "/faq" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -56,7 +57,7 @@ const Navbar = () => {
               ))}
               <Link to="/candidature" className="ml-4">
                 <Button className="bg-orange-500 hover:bg-orange-600 text-white border-none rounded-lg h-9 px-4 text-[9px] font-bold uppercase tracking-widest shadow-md shadow-orange-500/10">
-                  Devenir franchisé
+                  Devenir franchis\u00e9
                 </Button>
               </Link>
             </div>
@@ -107,7 +108,7 @@ const Navbar = () => {
               className="mt-4"
             >
               <Button className="w-full h-14 bg-orange-500 hover:bg-orange-600 text-base font-bold rounded-xl uppercase tracking-widest">
-                Devenir franchisé
+                Devenir franchis\u00e9
               </Button>
             </Link>
           </div>
