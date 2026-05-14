@@ -24,7 +24,19 @@ import {
   Image as ImageIcon,
   FileSearch,
   Camera,
-  Eye
+  Eye,
+  Mail,
+  Building,
+  Calendar,
+  MapPin,
+  Globe,
+  Award,
+  Wallet,
+  FileCheck,
+  XCircle,
+  Ban,
+  ExternalLink,
+  ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -62,19 +74,47 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "@/lib/supabase";
+import { supabase, searchApplications, updateApplication } from "@/lib/supabase";
 
 interface Application {
   id: string;
+  candidate_id: string;
   first_name: string;
   last_name: string;
   email: string;
+  phone: string;
   country: string;
   status: string;
   created_at: string;
+  updated_at: string;
+  // Business Info
+  business_name?: string;
+  business_status?: string;
+  business_country?: string;
+  business_year?: number;
+  business_address?: string;
+  business_sector?: string;
+  business_employees?: number;
+  business_ca?: string;
+  // Personal Info
+  birth_date?: string;
+  nationality?: string;
+  address?: string;
+  // Experience
+  experience_years?: number;
+  is_existing_franchisee?: boolean;
+  network_details?: string;
+  motivation?: string;
+  // Financial
+  budget?: string;
+  payment_schedule?: string;
+  deposit_amount?: string;
+  cv_url?: string;
+  consent_given?: boolean;
 }
 
 interface Agent {
@@ -103,6 +143,7 @@ const Dashboard = () => {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   
   // Agent Dialog State
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -121,6 +162,11 @@ const Dashboard = () => {
     id_type: "passport"
   });
   
+  // Application Dialog State
+  const [isAppDialogOpen, setIsAppDialogOpen] = useState(false);
+  const [selectedApp, setSelectedApp] = useState<Application | null>(null);
+  const [appForm, setAppForm] = useState<Partial<Application>>({});
+  
   const [profileFile, setProfileFile] = useState<File | null>(null);
   const [idFile, setIdFile] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState<string | null>(null);
@@ -135,7 +181,7 @@ const Dashboard = () => {
     const userRole = sessionStorage.getItem("userRole");
     
     if (isAdmin !== "true") {
-      toast.error("Acc\u00e8s non autoris\u00e9. Veuillez vous connecter.");
+      toast.error("Accès non autorisé. Veuillez vous connecter.");
       navigate("/");
       return;
     }
@@ -174,18 +220,43 @@ const Dashboard = () => {
     }
   };
 
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchTerm) {
+      fetchData();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await searchApplications(searchTerm);
+      if (error) throw error;
+      setApplications(data || []);
+    } catch (error: any) {
+      toast.error("Erreur lors de la recherche");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem("isAdmin");
     sessionStorage.removeItem("userRole");
-    toast.success("D\u00e9connexion r\u00e9ussie");
+    toast.success("Déconnexion réussie");
     navigate("/");
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "exclusive": return "text-orange-500 bg-orange-500/10 border-orange-500/20";
-      case "accepted": return "text-green-500 bg-green-500/10 border-green-500/20";
-      case "pending": return "text-blue-500 bg-blue-500/10 border-blue-500/20";
+      case "exclusive": 
+      case "attributed_exclusive": return "text-orange-500 bg-orange-500/10 border-orange-500/20";
+      case "accepted": 
+      case "active": return "text-green-500 bg-green-500/10 border-green-500/20";
+      case "non_exclusive":
+      case "attributed_non_exclusive": return "text-blue-500 bg-blue-500/10 border-blue-500/20";
+      case "rejected": return "text-red-500 bg-red-500/10 border-red-500/20";
+      case "disabled": return "text-zinc-400 bg-zinc-900 border-zinc-800";
+      case "pending": return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20";
       default: return "text-zinc-500 bg-zinc-500/10 border-zinc-500/20";
     }
   };
@@ -234,6 +305,12 @@ const Dashboard = () => {
     setIsDialogOpen(true);
   };
 
+  const openAppDetails = (app: Application) => {
+    setSelectedApp(app);
+    setAppForm({ ...app });
+    setIsAppDialogOpen(true);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'id') => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -272,7 +349,7 @@ const Dashboard = () => {
   const handleAgentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isSuperAdmin) {
-      toast.error("Seuls les Super Admins peuvent g\u00e9rer les agents.");
+      toast.error("Seuls les Super Admins peuvent gérer les agents.");
       return;
     }
 
@@ -317,7 +394,7 @@ const Dashboard = () => {
 
       if (error) throw error;
 
-      toast.success(editingAgent ? "Agent modifi\u00e9 avec succ\u00e8s" : "Agent cr\u00e9\u00e9 avec succ\u00e8s");
+      toast.success(editingAgent ? "Agent modifié avec succès" : "Agent créé avec succès");
       setIsDialogOpen(false);
       fetchData();
     } catch (error: any) {
@@ -327,9 +404,39 @@ const Dashboard = () => {
     }
   };
 
+  const handleAppUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedApp) return;
+
+    setIsSubmitting(true);
+    try {
+      const { error } = await updateApplication(selectedApp.id, appForm);
+      if (error) throw error;
+
+      toast.success("Dossier candidat mis à jour");
+      setIsAppDialogOpen(false);
+      fetchData();
+    } catch (error: any) {
+      toast.error(`Erreur: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const updateAppStatus = async (id: string, newStatus: string) => {
+    try {
+      const { error } = await updateApplication(id, { status: newStatus });
+      if (error) throw error;
+      toast.success(`Statut mis à jour vers: ${newStatus.replace("_", " ")}`);
+      fetchData();
+    } catch (error: any) {
+      toast.error(`Erreur: ${error.message}`);
+    }
+  };
+
   const toggleAgentStatus = async (agent: Agent) => {
     if (!isSuperAdmin) {
-      toast.error("Action r\u00e9serv\u00e9e aux Super Admins.");
+      toast.error("Action réservée aux Super Admins.");
       return;
     }
 
@@ -343,7 +450,7 @@ const Dashboard = () => {
       });
 
       if (error) throw error;
-      toast.success(`Agent ${agent.is_active ? 'd\u00e9sactiv\u00e9' : 'activ\u00e9'} avec succ\u00e8s`);
+      toast.success(`Agent ${agent.is_active ? 'désactivé' : 'activé'} avec succès`);
       fetchData();
     } catch (error: any) {
       toast.error(`Erreur: ${error.message}`);
@@ -364,7 +471,7 @@ const Dashboard = () => {
       });
 
       if (error) throw error;
-      toast.success("R\u00f4le mis \u00e0 jour");
+      toast.success("Rôle mis à jour");
       fetchData();
     } catch (error: any) {
       toast.error(`Erreur: ${error.message}`);
@@ -391,7 +498,7 @@ const Dashboard = () => {
               className="border-white/10 text-white hover:bg-white/5 h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-widest" 
               onClick={handleLogout}
             >
-              <LogOut className="mr-2" size={14} /> D\u00e9connexion
+              <LogOut className="mr-2" size={14} /> Déconnexion
             </Button>
           </div>
         </div>
@@ -400,7 +507,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: "Candidatures", value: applications.length.toString(), icon: FileText, color: "text-blue-500" },
-            { label: "Approuv\u00e9es", value: applications.filter(a => a.status === 'accepted').length.toString(), icon: CheckCircle, color: "text-green-500" },
+            { label: "Approuvées", value: applications.filter(a => ['accepted', 'active', 'exclusive', 'attributed_exclusive'].includes(a.status)).length.toString(), icon: CheckCircle, color: "text-green-500" },
             { label: "En attente", value: applications.filter(a => a.status === 'pending').length.toString(), icon: Clock, color: "text-orange-500" },
             { label: "Agents", value: agents.length.toString(), icon: Users, color: "text-purple-500" }
           ].map((stat, i) => (
@@ -433,10 +540,15 @@ const Dashboard = () => {
             </TabsList>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <div className="relative flex-grow sm:flex-grow-0">
+              <form onSubmit={handleSearch} className="relative flex-grow sm:flex-grow-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={14} />
-                <Input placeholder="Rechercher..." className="pl-9 bg-zinc-950 border-white/5 h-11 rounded-xl w-full sm:w-64 text-sm" />
-              </div>
+                <Input 
+                  placeholder="ID, Email, Business..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9 bg-zinc-950 border-white/5 h-11 rounded-xl w-full sm:w-64 text-sm" 
+                />
+              </form>
               <Button variant="outline" className="border-white/10 text-white hover:bg-white/5 h-11 px-4 rounded-xl shrink-0" onClick={fetchData}>
                 <RefreshCcw size={16} className={loading ? "animate-spin" : ""} />
               </Button>
@@ -448,7 +560,7 @@ const Dashboard = () => {
               <CardHeader className="border-b border-white/5 p-6 flex flex-row items-center justify-between space-y-0">
                 <div>
                   <CardTitle className="text-lg font-bold uppercase tracking-tight">Liste des Candidatures</CardTitle>
-                  <CardDescription className="text-zinc-500 text-xs mt-1">G\u00e9rez les demandes de franchise internationale.</CardDescription>
+                  <CardDescription className="text-zinc-500 text-xs mt-1">Gérez les demandes de franchise internationale.</CardDescription>
                 </div>
                 <Button className="bg-zinc-900 border border-white/10 text-white hover:bg-zinc-800 h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-widest">
                   Exporter CSV
@@ -458,6 +570,7 @@ const Dashboard = () => {
                 <Table>
                   <TableHeader className="bg-zinc-900/50">
                     <TableRow className="border-white/5 hover:bg-transparent">
+                      <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">ID Candidat</TableHead>
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Candidat</TableHead>
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Territoire</TableHead>
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Date</TableHead>
@@ -467,14 +580,22 @@ const Dashboard = () => {
                   </TableHeader>
                   <TableBody>
                     {loading ? (
-                      <TableRow><TableCell colSpan={5} className="text-center p-8 text-zinc-500">Chargement...</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={6} className="text-center p-8 text-zinc-500">Chargement...</TableCell></TableRow>
                     ) : applications.length === 0 ? (
-                      <TableRow><TableCell colSpan={5} className="text-center p-8 text-zinc-500">Aucune candidature trouv\u00e9e.</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={6} className="text-center p-8 text-zinc-500">Aucune candidature trouvée.</TableCell></TableRow>
                     ) : applications.map((app) => (
-                      <TableRow key={app.id} className="border-white/5 hover:bg-white/5 transition-colors">
+                      <TableRow key={app.id} className="border-white/5 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => openAppDetails(app)}>
+                        <TableCell className="p-4">
+                          <div className="font-mono text-[10px] font-bold text-orange-500 bg-orange-500/10 px-2 py-1 rounded w-fit uppercase">
+                            {app.candidate_id || 'Generating...'}
+                          </div>
+                        </TableCell>
                         <TableCell className="p-4">
                           <div className="font-bold text-sm">{app.first_name} {app.last_name}</div>
                           <div className="text-[10px] text-zinc-500">{app.email}</div>
+                          {app.business_name && (
+                            <div className="text-[9px] text-orange-500/70 font-bold uppercase mt-1">{app.business_name}</div>
+                          )}
                         </TableCell>
                         <TableCell className="p-4">
                           <div className="font-bold text-sm uppercase tracking-tight">{app.country}</div>
@@ -487,10 +608,47 @@ const Dashboard = () => {
                             {app.status.replace("_", " ")}
                           </span>
                         </TableCell>
-                        <TableCell className="p-4 text-right">
-                          <Button variant="ghost" size="icon" className="text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg h-8 w-8">
-                            <MoreHorizontal size={14} />
-                          </Button>
+                        <TableCell className="p-4 text-right" onClick={(e) => e.stopPropagation()}>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" className="text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg h-8 w-8">
+                                <MoreHorizontal size={14} />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10 text-white w-56 rounded-xl overflow-hidden p-1 shadow-2xl">
+                              <DropdownMenuItem 
+                                className="text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-white/5 rounded-lg py-2.5"
+                                onClick={() => openAppDetails(app)}
+                              >
+                                <FileSearch className="mr-2" size={12} /> Voir/Modifier Détails
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator className="bg-white/5" />
+                              <DropdownMenuItem 
+                                className="text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-green-500/20 text-green-400 rounded-lg py-2.5"
+                                onClick={() => updateAppStatus(app.id, 'attributed_exclusive')}
+                              >
+                                <ShieldCheck className="mr-2" size={12} /> Attribué Exclusif
+                              </DropdownMenuItem>
+                              <DropdownMenuItem 
+                                className="text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-blue-500/20 text-blue-400 rounded-lg py-2.5"
+                                onClick={() => updateAppStatus(app.id, 'attributed_non_exclusive')}
+                              >
+                                <Globe className="mr-2" size={12} /> Attribué Non-Exclusif
+                              </DropdownMenuItem>
+                              <DropdownMenuItem 
+                                className="text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-red-500/20 text-red-400 rounded-lg py-2.5"
+                                onClick={() => updateAppStatus(app.id, 'rejected')}
+                              >
+                                <XCircle className="mr-2" size={12} /> Rejeter Dossier
+                              </DropdownMenuItem>
+                              <DropdownMenuItem 
+                                className="text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-zinc-700 text-zinc-400 rounded-lg py-2.5"
+                                onClick={() => updateAppStatus(app.id, 'disabled')}
+                              >
+                                <Ban className="mr-2" size={12} /> Désactiver (Disable)
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -504,8 +662,8 @@ const Dashboard = () => {
             <Card className="bg-zinc-950 border-white/5 rounded-2xl overflow-hidden shadow-xl">
               <CardHeader className="border-b border-white/5 p-6 flex flex-row items-center justify-between space-y-0">
                 <div>
-                  <CardTitle className="text-lg font-bold uppercase tracking-tight">Gestion des Acc\u00e8s</CardTitle>
-                  <CardDescription className="text-zinc-500 text-xs mt-1">Cr\u00e9ez et g\u00e9rez les comptes administrateurs.</CardDescription>
+                  <CardTitle className="text-lg font-bold uppercase tracking-tight">Gestion des Accès</CardTitle>
+                  <CardDescription className="text-zinc-500 text-xs mt-1">Créez et gérez les comptes administrateurs.</CardDescription>
                 </div>
                 {isSuperAdmin && (
                   <Button 
@@ -522,7 +680,7 @@ const Dashboard = () => {
                     <TableRow className="border-white/5 hover:bg-transparent">
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">ID Agent</TableHead>
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Utilisateur</TableHead>
-                      <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">R\u00f4le</TableHead>
+                      <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Rôle</TableHead>
                       <TableHead className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Status</TableHead>
                       <TableHead className="text-right text-zinc-500 text-[10px] font-bold uppercase tracking-widest p-4">Actions</TableHead>
                     </TableRow>
@@ -531,7 +689,7 @@ const Dashboard = () => {
                     {loading ? (
                       <TableRow><TableCell colSpan={5} className="text-center p-8 text-zinc-500">Chargement...</TableCell></TableRow>
                     ) : agents.length === 0 ? (
-                      <TableRow><TableCell colSpan={5} className="text-center p-8 text-zinc-500">Aucun agent trouv\u00e9.</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center p-8 text-zinc-500">Aucun agent trouvé.</TableCell></TableRow>
                     ) : agents.map((agent) => (
                       <TableRow key={agent.id} className="border-white/5 hover:bg-white/5 transition-colors">
                         <TableCell className="p-4">
@@ -567,7 +725,7 @@ const Dashboard = () => {
                           <div className="flex items-center gap-1.5">
                             <div className={`w-1.5 h-1.5 rounded-full ${agent.is_active ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'}`}></div>
                             <span className={`text-[10px] font-bold uppercase tracking-widest ${agent.is_active ? 'text-green-500' : 'text-red-500'}`}>
-                              {agent.is_active ? 'Actif' : 'D\u00e9sactiv\u00e9'}
+                              {agent.is_active ? 'Actif' : 'Désactivé'}
                             </span>
                           </div>
                         </TableCell>
@@ -613,7 +771,7 @@ const Dashboard = () => {
                                 className={`text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-white/5 rounded-lg py-2.5 ${agent.is_active ? 'text-red-400' : 'text-green-400'}`}
                                 onClick={() => toggleAgentStatus(agent)}
                               >
-                                <Power className="mr-2" size={12} /> {agent.is_active ? 'D\u00e9sactiver' : 'R\u00e9activer'}
+                                <Power className="mr-2" size={12} /> {agent.is_active ? 'Désactiver' : 'Réactiver'}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -628,6 +786,228 @@ const Dashboard = () => {
         </Tabs>
       </div>
 
+      {/* Application Details Dialog */}
+      <Dialog open={isAppDialogOpen} onOpenChange={setIsAppDialogOpen}>
+        <DialogContent className="bg-zinc-950 border-white/10 text-white max-w-4xl rounded-[2rem] p-8 max-h-[90vh] overflow-y-auto shadow-2xl">
+          <DialogHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="font-mono text-xs font-bold text-orange-500 bg-orange-500/10 px-3 py-1.5 rounded-full uppercase border border-orange-500/20">
+                {selectedApp?.candidate_id}
+              </div>
+              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(appForm.status || '')}`}>
+                {appForm.status?.replace("_", " ")}
+              </span>
+            </div>
+            <DialogTitle className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+              <User className="text-orange-500" size={24} />
+              Dossier de {selectedApp?.first_name} {selectedApp?.last_name}
+            </DialogTitle>
+            <DialogDescription className="text-zinc-500 text-xs mt-2">Mettez à jour les informations du candidat ou son statut.</DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleAppUpdate} className="space-y-10 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+              {/* Section: Coordonnées */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500 flex items-center gap-2">
+                   <Mail size={14} /> Coordonnées & État Civil
+                </h3>
+                <div className="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Prénom</Label>
+                      <Input value={appForm.first_name} onChange={e => setAppForm({...appForm, first_name: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Nom</Label>
+                      <Input value={appForm.last_name} onChange={e => setAppForm({...appForm, last_name: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Email</Label>
+                    <Input value={appForm.email} onChange={e => setAppForm({...appForm, email: e.target.value})} className="bg-black border-white/10" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Téléphone</Label>
+                    <Input value={appForm.phone} onChange={e => setAppForm({...appForm, phone: e.target.value})} className="bg-black border-white/10" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Date de Naissance</Label>
+                      <Input type="date" value={appForm.birth_date} onChange={e => setAppForm({...appForm, birth_date: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Nationalité</Label>
+                      <Input value={appForm.nationality} onChange={e => setAppForm({...appForm, nationality: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Adresse</Label>
+                    <Input value={appForm.address} onChange={e => setAppForm({...appForm, address: e.target.value})} className="bg-black border-white/10" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Business */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500 flex items-center gap-2">
+                   <Building size={14} /> Structure Business
+                </h3>
+                <div className="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Nom Entreprise</Label>
+                    <Input value={appForm.business_name} onChange={e => setAppForm({...appForm, business_name: e.target.value})} className="bg-black border-white/10" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Statut Juridique</Label>
+                      <Input value={appForm.business_status} onChange={e => setAppForm({...appForm, business_status: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Pays d'immat.</Label>
+                      <Input value={appForm.business_country} onChange={e => setAppForm({...appForm, business_country: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Année Création</Label>
+                      <Input type="number" value={appForm.business_year} onChange={e => setAppForm({...appForm, business_year: parseInt(e.target.value)})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Secteur</Label>
+                      <Input value={appForm.business_sector} onChange={e => setAppForm({...appForm, business_sector: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Employés</Label>
+                      <Input type="number" value={appForm.business_employees} onChange={e => setAppForm({...appForm, business_employees: parseInt(e.target.value)})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">CA Annuel</Label>
+                      <Input value={appForm.business_ca} onChange={e => setAppForm({...appForm, business_ca: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Projet & Territoire */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500 flex items-center gap-2">
+                   <Globe size={14} /> Projet & Territoire
+                </h3>
+                <div className="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Pays Visé (Territoire)</Label>
+                    <Input value={appForm.country} onChange={e => setAppForm({...appForm, country: e.target.value})} className="bg-black border-white/10" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Expérience (années)</Label>
+                    <Input type="number" value={appForm.experience_years} onChange={e => setAppForm({...appForm, experience_years: parseInt(e.target.value)})} className="bg-black border-white/10" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Motivations</Label>
+                    <Textarea value={appForm.motivation} onChange={e => setAppForm({...appForm, motivation: e.target.value})} className="bg-black border-white/10 min-h-[100px]" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Finance & Documents */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500 flex items-center gap-2">
+                   <Wallet size={14} /> Finance & Documents
+                </h3>
+                <div className="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Budget Global</Label>
+                      <Input value={appForm.budget} onChange={e => setAppForm({...appForm, budget: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Acompte Dispo.</Label>
+                      <Input value={appForm.deposit_amount} onChange={e => setAppForm({...appForm, deposit_amount: e.target.value})} className="bg-black border-white/10" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-zinc-500 font-bold uppercase tracking-widest text-[8px]">Proposition Échelonnement</Label>
+                    <Textarea value={appForm.payment_schedule} onChange={e => setAppForm({...appForm, payment_schedule: e.target.value})} className="bg-black border-white/10 h-20" />
+                  </div>
+                  
+                  {appForm.cv_url && (
+                    <div className="pt-4">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="w-full border-orange-500/20 text-orange-500 hover:bg-orange-500/5 h-12 rounded-xl"
+                        onClick={() => window.open(appForm.cv_url, '_blank')}
+                      >
+                        <FileCheck className="mr-2" size={16} /> Consulter le CV (PDF)
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Section: Statut du Dossier */}
+              <div className="col-span-full space-y-4 pt-4 border-t border-white/5">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500 flex items-center gap-2">
+                   <Award size={14} /> Statut & Gestion de la Candidature
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-orange-500/5 p-8 rounded-2xl border border-orange-500/10">
+                  <div className="space-y-2">
+                    <Label className="text-zinc-400 font-bold uppercase tracking-widest text-[10px]">Action sur le Statut</Label>
+                    <Select 
+                      value={appForm.status} 
+                      onValueChange={(val: any) => setAppForm({...appForm, status: val})}
+                    >
+                      <SelectTrigger className="bg-black border-white/10 h-14 rounded-xl text-sm font-bold">
+                        <SelectValue placeholder="Changer le statut" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-900 border-white/10 text-white">
+                        <SelectItem value="pending">En Attente (Pending)</SelectItem>
+                        <SelectItem value="accepted">Accepté</SelectItem>
+                        <SelectItem value="active">Actif</SelectItem>
+                        <SelectItem value="attributed_exclusive">Attribué Exclusif</SelectItem>
+                        <SelectItem value="attributed_non_exclusive">Attribué Non-Exclusif</SelectItem>
+                        <SelectItem value="rejected">Rejeté</SelectItem>
+                        <SelectItem value="disabled">Désactivé (Disabled)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-[9px] text-zinc-500 italic">Modifier le statut change l'accès et la visibilité du candidat dans le système.</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <div className="text-center space-y-2">
+                      <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Dernière mise à jour</div>
+                      <div className="text-sm font-bold">
+                        {appForm.updated_at ? new Date(appForm.updated_at).toLocaleString() : 'Jamais'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="flex gap-3 sm:gap-4 mt-10 pb-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="flex-1 border-white/10 text-white hover:bg-white/5 h-14 rounded-xl text-[10px] font-bold uppercase tracking-widest"
+                onClick={() => setIsAppDialogOpen(false)}
+              >
+                Annuler
+              </Button>
+              <Button 
+                type="submit" 
+                className="flex-1 bg-orange-500 hover:bg-orange-600 h-14 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-orange-500/20"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Enregistrement..." : "Enregistrer les Modifications"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       {/* Create/Edit Agent Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-zinc-950 border-white/10 text-white max-w-2xl rounded-[2rem] p-8 max-h-[90vh] overflow-y-auto shadow-2xl">
@@ -636,7 +1016,7 @@ const Dashboard = () => {
               {editingAgent ? "Modifier l'Agent" : "Nouvel Agent"}
             </DialogTitle>
             <DialogDescription className="text-zinc-500 text-xs mt-2">
-              {editingAgent ? "Mettez \u00e0 jour le profil complet de l'agent." : "Cr\u00e9ez un nouveau compte agent avec son profil complet."}
+              {editingAgent ? "Mettez à jour le profil complet de l'agent." : "Créez un nouveau compte agent avec son profil complet."}
             </DialogDescription>
           </DialogHeader>
 
@@ -674,7 +1054,7 @@ const Dashboard = () => {
 
               {/* Credentials Section */}
               <div className="space-y-4 col-span-full pb-4 border-b border-white/5">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Identifiants d'acc\u00e8s</h3>
+                <h3 className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Identifiants d'accès</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Email Professionnel</Label>
@@ -698,7 +1078,7 @@ const Dashboard = () => {
                         type="password"
                         value={agentForm.password}
                         onChange={(e) => setAgentForm({...agentForm, password: e.target.value})}
-                        placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+                        placeholder="••••••••"
                         className="bg-black border-white/10 h-12 rounded-xl text-sm"
                         required
                       />
@@ -706,13 +1086,13 @@ const Dashboard = () => {
                   )}
 
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">R\u00f4le Syst\u00e8me</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Rôle Système</Label>
                     <Select 
                       value={agentForm.role} 
                       onValueChange={(val: any) => setAgentForm({...agentForm, role: val})}
                     >
                       <SelectTrigger className="bg-black border-white/10 h-12 rounded-xl text-sm">
-                        <SelectValue placeholder="S\u00e9lectionner un r\u00f4le" />
+                        <SelectValue placeholder="Sélectionner un rôle" />
                       </SelectTrigger>
                       <SelectContent className="bg-zinc-900 border-white/10 text-white">
                         <SelectItem value="read_only">Read-only (Consultation)</SelectItem>
@@ -729,7 +1109,7 @@ const Dashboard = () => {
                 <h3 className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Profil Personnel</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Pr\u00e9nom</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Prénom</Label>
                     <Input 
                       value={agentForm.first_name}
                       onChange={(e) => setAgentForm({...agentForm, first_name: e.target.value})}
@@ -747,7 +1127,7 @@ const Dashboard = () => {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">T\u00e9l\u00e9phone</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Téléphone</Label>
                     <div className="relative">
                       <Input 
                         value={agentForm.phone}
@@ -759,7 +1139,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">\u00c2ge</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Âge</Label>
                     <Input 
                       type="number"
                       value={agentForm.age}
@@ -775,7 +1155,7 @@ const Dashboard = () => {
                       onValueChange={(val: any) => setAgentForm({...agentForm, gender: val})}
                     >
                       <SelectTrigger className="bg-black border-white/10 h-12 rounded-xl text-sm">
-                        <SelectValue placeholder="S\u00e9lectionner" />
+                        <SelectValue placeholder="Sélectionner" />
                       </SelectTrigger>
                       <SelectContent className="bg-zinc-900 border-white/10 text-white">
                         <SelectItem value="male">Homme</SelectItem>
@@ -789,33 +1169,33 @@ const Dashboard = () => {
 
               {/* Documents Section */}
               <div className="space-y-4 col-span-full">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Documents d'identit\u00e9</h3>
+                <h3 className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Documents d'identité</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Type de pi\u00e8ce d'identit\u00e9</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Type de pièce d'identité</Label>
                     <Select 
                       value={agentForm.id_type} 
                       onValueChange={(val: any) => setAgentForm({...agentForm, id_type: val})}
                     >
                       <SelectTrigger className="bg-black border-white/10 h-12 rounded-xl text-sm">
-                        <SelectValue placeholder="S\u00e9lectionner" />
+                        <SelectValue placeholder="Sélectionner" />
                       </SelectTrigger>
                       <SelectContent className="bg-zinc-900 border-white/10 text-white">
                         <SelectItem value="passport">Passeport</SelectItem>
-                        <SelectItem value="national_id">Carte Nationale d'Identit\u00e9 (CNI)</SelectItem>
+                        <SelectItem value="national_id">Carte Nationale d'Identité (CNI)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Photo de la pi\u00e8ce d'identit\u00e9</Label>
+                    <Label className="text-gray-500 font-bold uppercase tracking-widest text-[8px]">Photo de la pièce d'identité</Label>
                     <div 
                       className="relative h-12 bg-black border border-white/10 rounded-xl flex items-center px-4 cursor-pointer hover:bg-white/5 transition-colors group"
                       onClick={() => idInputRef.current?.click()}
                     >
                       <Upload className="mr-2 text-zinc-500" size={14} />
                       <span className="text-xs text-zinc-400 truncate">
-                        {idFile ? idFile.name : idPreview ? "Pi\u00e8ce d'identit\u00e9 t\u00e9l\u00e9charg\u00e9e" : "T\u00e9l\u00e9charger un fichier..."}
+                        {idFile ? idFile.name : idPreview ? "Pièce d'identité téléchargée" : "Télécharger un fichier..."}
                       </span>
                       {idPreview && (
                         <Button 
@@ -858,7 +1238,7 @@ const Dashboard = () => {
                 className="flex-1 bg-orange-500 hover:bg-orange-600 h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Traitement..." : editingAgent ? "Mettre \u00e0 jour" : "Cr\u00e9er le profil"}
+                {isSubmitting ? "Traitement..." : editingAgent ? "Mettre à jour" : "Créer le profil"}
               </Button>
             </DialogFooter>
           </form>

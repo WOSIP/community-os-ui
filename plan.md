@@ -1,28 +1,32 @@
-# Plan: Agent Profile Enhancement
+# Implementation Plan - Candidate Search and Management
 
-## 1. Backend Updates (Supabase)
-- **Database Migration**: 
-    - Add `id_picture_url` column to `public.profiles`.
-    - Add `id_type` column (TEXT) to `public.profiles`.
-    - Create storage buckets: `agent-profiles` and `agent-documents` with public access policies.
-- **Edge Function (`supabase/functions/manage-admins/index.ts`)**: 
-    - Update to handle `id_picture_url` and `id_type` in `create` and `update` actions.
+This plan outlines the steps to implement search functionality for candidate files and allow admins to update their status and information.
 
-## 2. Frontend Updates (`src/pages/Dashboard.tsx`)
-- **Type Definitions**: Update `Agent` interface to include `id_picture_url` and `id_type`.
-- **State Management**: 
-    - Update `agentForm` to include `id_type` and handle file states for uploads.
-- **UI Components**:
-    - Replace the Profile Picture URL input with a file upload component.
-    - In the "Documents d'identité" section:
-        - Add a selector for "Type d'ID" (Passeport / CNI).
-        - Add a file upload component for the ID Picture.
-        - Remove manual text inputs for Passport/National ID numbers.
-- **File Upload Logic**:
-    - Implement a utility to upload files to Supabase Storage before calling the `manage-admins` function.
-    - Ensure unique file names (e.g., using timestamp + original name).
+## 1. Database Schema Update
+- Add missing fields to `applications` table to match the application form.
+- Add `candidate_id` (e.g., CAND-XXXX) to the `applications` table with an automatic trigger.
+- Update `application_status` enum to include 'rejected', 'attributed_exclusive', 'attributed_non_exclusive', and 'disabled'.
 
-## 3. Validation
-- Verify agent creation with images.
-- Verify agent update with images.
-- Verify that ID numbers are no longer required/present.
+## 2. Supabase Integration (`src/lib/supabase.ts`)
+- Implement `submitApplication` function to save form data and handle CV upload.
+- Implement `searchApplications` function to search by ID, email, name, or business name.
+- Implement `updateApplication` function for status and information updates.
+
+## 3. Application Form Update (`src/pages/Application.tsx`)
+- Connect the form to Supabase.
+- Handle file upload for the CV.
+- Generate a success message with the new `candidate_id`.
+
+## 4. Dashboard Enhancements (`src/pages/Dashboard.tsx`)
+- Update `Application` interface to include all fields.
+- Implement real-time search using the new search function.
+- Add a detailed "Application Details/Edit" dialog to allow:
+    - Viewing all submitted information.
+    - Updating missing or incorrect information.
+    - Changing application status with the new options.
+- Update the applications table to display `candidate_id` and the new statuses.
+
+## 5. Validation
+- Test application submission.
+- Test searching by various criteria.
+- Test updating status and info as an admin.
