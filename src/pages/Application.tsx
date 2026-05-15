@@ -9,8 +9,10 @@ import { COUNTRIES, EXCLUDED_COUNTRIES } from "../lib/constants";
 import { FileUp, ChevronRight, ChevronLeft, CheckCircle2, ShieldCheck, User, Briefcase, Globe, Target, Banknote, FileText, Loader2 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { supabase, submitApplication } from "@/lib/supabase";
+import { useTranslation, Trans } from "react-i18next";
 
 const Application = () => {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,15 +21,15 @@ const Application = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
-    // 1. Coordonnées personnelles
+    // 1. Coordonn\u00e9es personnelles
     first_name: "", last_name: "", birth_date: "", nationality: "", email: "", phone: "", address: "",
     // 2. Business
     business_name: "", business_status: "", business_country: "", business_year: "", business_address: "", business_sector: "", business_employees: "", business_ca: "",
-    // 3. Territoire visé
+    // 3. Territoire vis\u00e9
     country: "",
-    // 4. Expérience
+    // 4. Exp\u00e9rience
     experience_years: "", is_existing_franchisee: "Non", network_details: "", motivation: "",
-    // 5. Capacité financière
+    // 5. Capacit\u00e9 financi\u00e8re
     budget: "", payment_schedule: "", deposit_amount: "",
     // 6. Upload CV
     cvFile: null as File | null,
@@ -46,23 +48,23 @@ const Application = () => {
 
   const nextStep = () => {
     if (step === 1 && (!formData.first_name || !formData.last_name || !formData.email || !formData.phone)) {
-      toast.error("Veuillez remplir les informations obligatoires (Nom, Prénom, Email, Téléphone).");
+      toast.error(t("application.errors.mandatory"));
       return;
     }
     if (step === 2 && (!formData.business_name || !formData.business_sector)) {
-      toast.error("Veuillez renseigner au moins le nom et le secteur de votre business.");
+      toast.error(t("application.errors.business"));
       return;
     }
     if (step === 3 && !formData.country) {
-      toast.error("Veuillez sélectionner un territoire.");
+      toast.error(t("application.errors.territory"));
       return;
     }
     if (step === 6 && !formData.cvFile) {
-      toast.error("Veuillez télécharger votre CV au format PDF.");
+      toast.error(t("application.errors.cv"));
       return;
     }
     if (step === 7 && !formData.consent_given) {
-      toast.error("Veuillez accepter les conditions pour continuer.");
+      toast.error(t("application.errors.consent"));
       return;
     }
     if (step < 7) {
@@ -82,7 +84,7 @@ const Application = () => {
     const filePath = `cvs/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
-      .from('agent-assets') // Reusing the same bucket for simplicity or use a dedicated one
+      .from('agent-assets')
       .upload(filePath, file);
 
     if (uploadError) throw uploadError;
@@ -141,9 +143,9 @@ const Application = () => {
 
       setCandidateId(data.candidate_id);
       setIsSubmitted(true);
-      toast.success("Votre dossier de candidature a été envoyé !");
+      toast.success(t("application.success.title"));
     } catch (error: any) {
-      toast.error(`Erreur lors de l'envoi: ${error.message}`);
+      toast.error(t("application.errors.upload", { error: error.message }));
     } finally {
       setIsSubmitting(false);
     }
@@ -153,7 +155,7 @@ const Application = () => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file.type !== "application/pdf") {
-        toast.error("Seuls les fichiers PDF sont acceptés.");
+        toast.error(t("application.errors.pdf_only"));
         return;
       }
       setFormData({ ...formData, cvFile: file });
@@ -161,13 +163,13 @@ const Application = () => {
   };
 
   const steps = [
-    { title: "Coordonnées", icon: User },
-    { title: "Business", icon: Briefcase },
-    { title: "Territoire", icon: Globe },
-    { title: "Expérience", icon: Target },
-    { title: "Finance", icon: Banknote },
-    { title: "CV", icon: FileText },
-    { title: "Validation", icon: ShieldCheck }
+    { title: t("application.steps.step1"), icon: User },
+    { title: t("application.steps.step2"), icon: Briefcase },
+    { title: t("application.steps.step3"), icon: Globe },
+    { title: t("application.steps.step4"), icon: Target },
+    { title: t("application.steps.step5"), icon: Banknote },
+    { title: t("application.steps.step6"), icon: FileText },
+    { title: t("application.steps.step7"), icon: ShieldCheck }
   ];
 
   if (isSubmitted) {
@@ -180,17 +182,19 @@ const Application = () => {
         >
           <CheckCircle2 size={40} className="text-white" />
         </motion.div>
-        <h1 className="text-3xl font-bold text-white mb-3 uppercase tracking-tight">Candidature Reçue !</h1>
+        <h1 className="text-3xl font-bold text-white mb-3 uppercase tracking-tight">{t("application.success.title")}</h1>
         <p className="text-base text-gray-400 max-w-xl mx-auto leading-relaxed font-medium">
-          Félicitations {formData.first_name}, votre dossier pour <span className="text-orange-500 font-bold underline decoration-2">{formData.country}</span> a été transmis.
+          <Trans i18nKey="application.success.desc" values={{ name: formData.first_name, country: formData.country }}>
+            Congratulations, your file for <span className="text-orange-500 font-bold underline decoration-2"></span> has been transmitted.
+          </Trans>
         </p>
         <div className="mt-4 p-4 bg-zinc-900 rounded-xl border border-white/5">
-          <p className="text-xs text-zinc-500 uppercase font-bold tracking-widest mb-1">Votre ID Candidat</p>
+          <p className="text-xs text-zinc-500 uppercase font-bold tracking-widest mb-1">{t("application.success.id_label")}</p>
           <p className="text-2xl font-mono font-bold text-orange-500">{candidateId}</p>
         </div>
-        <p className="text-gray-500 mt-6 italic font-bold text-xs">Un expert franchise vous contactera sous 3 à 5 jours.</p>
+        <p className="text-gray-500 mt-6 italic font-bold text-xs">{t("application.success.contact_note")}</p>
         <Button className="mt-8 bg-orange-500 hover:bg-orange-600 h-12 px-10 text-base font-bold rounded-xl" onClick={() => window.location.href = "/"}>
-          Retour à l'accueil
+          {t("application.success.home")}
         </Button>
       </div>
     );
@@ -200,8 +204,10 @@ const Application = () => {
     <div className="bg-black text-white py-16 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 uppercase tracking-tight">Dossier de <span className="text-orange-500">Candidature</span></h1>
-          <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.3em]">Expansion Internationale Helloopass OS</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 uppercase tracking-tight">
+            <Trans i18nKey="application.title"><span className="text-orange-500"></span></Trans>
+          </h1>
+          <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.3em]">{t("application.subtitle")}</p>
         </div>
 
         <div className="hidden md:flex justify-between items-center mb-12 px-4">
@@ -239,45 +245,45 @@ const Application = () => {
             {step === 1 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step1" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">1. Coordonnées Personnelles</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Informations porteur de projet.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.personal")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.personal_desc")}</p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Prénom</Label><Input required value={formData.first_name} onChange={e => setFormData({...formData, first_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Nom</Label><Input required value={formData.last_name} onChange={e => setFormData({...formData, last_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.first_name")}</Label><Input required value={formData.first_name} onChange={e => setFormData({...formData, first_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.last_name")}</Label><Input required value={formData.last_name} onChange={e => setFormData({...formData, last_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Date de naissance</Label><Input type="date" required value={formData.birth_date} onChange={e => setFormData({...formData, birth_date: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Nationalité</Label><Input required value={formData.nationality} onChange={e => setFormData({...formData, nationality: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.birth")}</Label><Input type="date" required value={formData.birth_date} onChange={e => setFormData({...formData, birth_date: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.nat")}</Label><Input required value={formData.nationality} onChange={e => setFormData({...formData, nationality: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Email Direct</Label><Input type="email" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Téléphone</Label><Input required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.email")}</Label><Input type="email" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.phone")}</Label><Input required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 </div>
-                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Adresse</Label><Input required value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.address")}</Label><Input required value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
               </motion.div>
             )}
 
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step2" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">2. Informations Business</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Détails de votre structure actuelle.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.business")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.business_desc")}</p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Nom de l'entreprise</Label><Input required value={formData.business_name} onChange={e => setFormData({...formData, business_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Statut Juridique</Label><Input required value={formData.business_status} onChange={e => setFormData({...formData, business_status: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Ex: SAS, SARL..." /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.company_name")}</Label><Input required value={formData.business_name} onChange={e => setFormData({...formData, business_name: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.legal")}</Label><Input required value={formData.business_status} onChange={e => setFormData({...formData, business_status: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Ex: SAS, SARL..." /></div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Pays d'immatriculation</Label><Input required value={formData.business_country} onChange={e => setFormData({...formData, business_country: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Année de création</Label><Input type="number" required value={formData.business_year} onChange={e => setFormData({...formData, business_year: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.reg_country")}</Label><Input required value={formData.business_country} onChange={e => setFormData({...formData, business_country: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.year")}</Label><Input type="number" required value={formData.business_year} onChange={e => setFormData({...formData, business_year: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 </div>
-                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Adresse de l'entreprise</Label><Input required value={formData.business_address} onChange={e => setFormData({...formData, business_address: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.company_address")}</Label><Input required value={formData.business_address} onChange={e => setFormData({...formData, business_address: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 <div className="grid md:grid-cols-2 gap-6">
-                   <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Secteur d'activité</Label><Input required value={formData.business_sector} onChange={e => setFormData({...formData, business_sector: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                   <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.sector")}</Label><Input required value={formData.business_sector} onChange={e => setFormData({...formData, business_sector: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Employés</Label><Input type="number" value={formData.business_employees} onChange={e => setFormData({...formData, business_employees: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">CA Annuel</Label><Input value={formData.business_ca} onChange={e => setFormData({...formData, business_ca: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.employees")}</Label><Input type="number" value={formData.business_employees} onChange={e => setFormData({...formData, business_employees: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                      <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.ca")}</Label><Input value={formData.business_ca} onChange={e => setFormData({...formData, business_ca: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                    </div>
                 </div>
               </motion.div>
@@ -286,22 +292,26 @@ const Application = () => {
             {step === 3 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step3" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">3. Territoire Visé</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Le pays visé pour l'exclusivité.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.target")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.target_desc")}</p>
                 </div>
                 <div className="space-y-5">
-                  <Label className="text-white text-lg font-bold uppercase tracking-tight">SÉLECTIONNEZ VOTRE TERRITOIRE</Label>
+                  <Label className="text-white text-lg font-bold uppercase tracking-tight">{t("application.form.target_select")}</Label>
                   <select 
                     className="w-full h-14 px-6 rounded-xl bg-black border border-white/10 text-white text-base font-bold appearance-none cursor-pointer focus:border-orange-500"
                     value={formData.country}
                     onChange={e => setFormData({...formData, country: e.target.value})}
                     required
                   >
-                    <option value="">Choisir un pays...</option>
+                    <option value="">{t("application.form.choose_country")}</option>
                     {COUNTRIES.filter(c => !EXCLUDED_COUNTRIES.includes(c)).map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                   <div className="p-6 bg-orange-500/10 border border-orange-500/20 rounded-xl">
-                     <p className="text-gray-400 text-sm font-medium leading-relaxed">En devenant franchisé pour <span className="text-white font-bold">{formData.country || "votre pays"}</span>, vous serez l'unique fournisseur de l'OS.</p>
+                     <p className="text-gray-400 text-sm font-medium leading-relaxed">
+                       <Trans i18nKey="application.form.target_note" values={{ country: formData.country || "votre pays" }}>
+                         En devenant franchis\u00e9 pour <span className="text-white font-bold"></span>, vous serez l'unique fournisseur de l'OS.
+                       </Trans>
+                     </p>
                   </div>
                 </div>
               </motion.div>
@@ -310,40 +320,40 @@ const Application = () => {
             {step === 4 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step4" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">4. Expérience & Motivations</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Votre parcours et votre intérêt pour Helloopass.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.exp")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.exp_desc")}</p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Années d'expérience</Label><Input type="number" required value={formData.experience_years} onChange={e => setFormData({...formData, experience_years: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Franchise existante ?</Label>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.exp_years")}</Label><Input type="number" required value={formData.experience_years} onChange={e => setFormData({...formData, experience_years: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.existing")}</Label>
                     <select 
                       className="w-full h-12 px-5 rounded-xl bg-black border border-white/10 text-white text-base appearance-none cursor-pointer focus:border-orange-500"
                       value={formData.is_existing_franchisee}
                       onChange={e => setFormData({...formData, is_existing_franchisee: e.target.value})}
                     >
-                      <option value="Oui">Oui</option>
-                      <option value="Non">Non</option>
+                      <option value="Oui">{t("common.yes", "Oui")}</option>
+                      <option value="Non">{t("common.no", "Non")}</option>
                     </select>
                   </div>
                 </div>
-                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Réseau actuel (si applicable)</Label><Input value={formData.network_details} onChange={e => setFormData({...formData, network_details: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Nom du réseau, nombre de points de vente..." /></div>
-                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Vos motivations</Label><Textarea required value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} className="bg-black border-white/10 min-h-[120px] text-base rounded-xl px-5 py-3 resize-none" placeholder="Pourquoi souhaitez-vous rejoindre le réseau Helloopass ?" /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.network")}</Label><Input value={formData.network_details} onChange={e => setFormData({...formData, network_details: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" placeholder="Nom du r\u00e9seau, nombre de points de vente..." /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.motivations")}</Label><Textarea required value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} className="bg-black border-white/10 min-h-[120px] text-base rounded-xl px-5 py-3 resize-none" placeholder={t("application.form.motivations_placeholder")} /></div>
               </motion.div>
             )}
 
             {step === 5 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step5" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">5. Capacité Financière</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Évaluation des ressources pour le déploiement.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.finance")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.finance_desc")}</p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Budget Global (USD/EUR)</Label><Input required value={formData.budget} onChange={e => setFormData({...formData, budget: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
-                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Acompte disponible immédiatement</Label><Input required value={formData.deposit_amount} onChange={e => setFormData({...formData, deposit_amount: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.budget")}</Label><Input required value={formData.budget} onChange={e => setFormData({...formData, budget: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
+                  <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.deposit")}</Label><Input required value={formData.deposit_amount} onChange={e => setFormData({...formData, deposit_amount: e.target.value})} className="bg-black border-white/10 h-12 text-base rounded-xl px-5" /></div>
                 </div>
-                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">Proposition d'échelonnement</Label><Textarea value={formData.payment_schedule} onChange={e => setFormData({...formData, payment_schedule: e.target.value})} className="bg-black border-white/10 min-h-[100px] text-base rounded-xl px-5 py-3 resize-none" placeholder="Précisez vos besoins ou propositions d'échelonnement..." /></div>
+                <div className="space-y-1.5"><Label className="text-gray-500 font-bold uppercase tracking-widest text-[7px]">{t("application.form.payment")}</Label><Textarea value={formData.payment_schedule} onChange={e => setFormData({...formData, payment_schedule: e.target.value})} className="bg-black border-white/10 min-h-[100px] text-base rounded-xl px-5 py-3 resize-none" placeholder="Pr\u00e9cisez vos besoins ou propositions d'\u00e9chelonnement..." /></div>
                 <div className="p-4 bg-zinc-900/50 rounded-xl border border-white/5">
-                   <p className="text-zinc-500 text-[9px] uppercase tracking-wider font-bold">Note: Ces informations sont confidentielles et servent uniquement à évaluer la faisabilité du projet.</p>
+                   <p className="text-zinc-500 text-[9px] uppercase tracking-wider font-bold">{t("application.form.finance_note")}</p>
                 </div>
               </motion.div>
             )}
@@ -351,8 +361,8 @@ const Application = () => {
             {step === 6 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step6" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">6. Upload CV</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Fichier au format PDF exclusivement.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.cv")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.cv_desc")}</p>
                 </div>
                 <div 
                   className="border-2 border-dashed border-white/10 rounded-2xl p-12 text-center cursor-pointer hover:border-orange-500/50 transition-colors"
@@ -370,8 +380,8 @@ const Application = () => {
                       <FileUp size={28} className={formData.cvFile ? "text-orange-500" : "text-zinc-600"} />
                     </div>
                     <div>
-                      <p className="text-base font-bold uppercase tracking-tight">{formData.cvFile ? formData.cvFile.name : "Cliquez pour choisir un fichier"}</p>
-                      <p className="text-zinc-500 text-xs mt-1 font-medium">Maximum 5MB • PDF uniquement</p>
+                      <p className="text-base font-bold uppercase tracking-tight">{formData.cvFile ? formData.cvFile.name : t("application.form.cv_choose")}</p>
+                      <p className="text-zinc-500 text-xs mt-1 font-medium">{t("application.form.cv_max")}</p>
                     </div>
                   </div>
                 </div>
@@ -382,7 +392,7 @@ const Application = () => {
                       </div>
                       <div className="flex-1">
                          <p className="text-sm font-bold truncate">{formData.cvFile.name}</p>
-                         <p className="text-[10px] text-zinc-500 uppercase">PDF prêt pour l'envoi</p>
+                         <p className="text-[10px] text-zinc-500 uppercase">{t("application.form.cv_ready")}</p>
                       </div>
                       <Button 
                         type="button" 
@@ -393,7 +403,7 @@ const Application = () => {
                           setFormData({...formData, cvFile: null});
                         }}
                       >
-                        Supprimer
+                        {t("application.form.delete")}
                       </Button>
                    </div>
                 )}
@@ -403,13 +413,13 @@ const Application = () => {
             {step === 7 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} key="step7" className="space-y-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold uppercase tracking-tight">7. Consentement Final</h3>
-                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Dernière étape.</p>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">{t("application.form.consent")}</h3>
+                  <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{t("application.form.consent_desc")}</p>
                 </div>
                 <div className="space-y-6">
                   <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 space-y-4">
                     <p className="text-sm text-zinc-400 leading-relaxed">
-                      En soumettant ce formulaire, vous reconnaissez que les informations fournies sont exactes et véridiques. Helloopass OS s'engage à traiter vos données de manière confidentielle conformément à sa politique de confidentialité.
+                      {t("application.form.consent_legal")}
                     </p>
                     <div className="flex items-start gap-4 pt-4 border-t border-white/5">
                       <input 
@@ -420,7 +430,7 @@ const Application = () => {
                         onChange={e => setFormData({...formData, consent_given: e.target.checked})}
                       />
                       <label htmlFor="consent-check" className="text-gray-300 text-sm leading-relaxed cursor-pointer font-medium">
-                        Je certifie que les informations fournies sont exactes. J'accepte le traitement de mes données pour l'examen de ma candidature.
+                        {t("application.form.consent_check")}
                       </label>
                     </div>
                   </div>
@@ -432,7 +442,7 @@ const Application = () => {
           <div className="flex justify-between mt-12 pt-8 border-t border-white/5">
             {step > 1 ? (
               <Button type="button" variant="outline" onClick={prevStep} className="border-zinc-800 text-white h-12 px-6 rounded-xl text-sm font-bold uppercase">
-                <ChevronLeft className="mr-2" size={18} /> Retour
+                <ChevronLeft className="mr-2" size={18} /> {t("application.form.back")}
               </Button>
             ) : <div />}
             
@@ -443,11 +453,11 @@ const Application = () => {
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 animate-spin" size={18} /> Traitement...
+                  <Loader2 className="mr-2 animate-spin" size={18} /> {t("application.form.processing")}
                 </>
               ) : (
                 <>
-                  {step === 7 ? "Soumettre Dossier" : "Suivant"} <ChevronRight className="ml-2" size={18} />
+                  {step === 7 ? t("application.form.submit") : t("application.form.next")} <ChevronRight className="ml-2" size={18} />
                 </>
               )}
             </Button>

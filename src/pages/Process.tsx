@@ -3,64 +3,29 @@ import { motion } from "framer-motion";
 import { ClipboardList, Search, MessageSquare, FileText, PenTool, Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Process = () => {
-  const steps = [
-    { 
-      title: "Formulaire", 
-      time: "5 min", 
-      desc: "Remplissez votre demande initiale en ligne en précisant votre territoire d'intérêt.", 
-      icon: ClipboardList 
-    },
-    { 
-      title: "Étude", 
-      time: "3-5 j", 
-      desc: "Notre comité d'expansion analyse votre profil, votre expérience et la viabilité du marché local.", 
-      icon: Search 
-    },
-    { 
-      title: "Entretien", 
-      time: "1 h", 
-      desc: "Échange stratégique en visio avec nos directeurs régionaux pour valider l'alignement.", 
-      icon: MessageSquare 
-    },
-    { 
-      title: "Contrat", 
-      time: "48 h", 
-      desc: "Envoi du projet de contrat de Master Franchise adapté à votre législation nationale.", 
-      icon: FileText 
-    },
-    { 
-      title: "Signature", 
-      time: "Immédiat", 
-      desc: "Signature électronique sécurisée et versement de l'acompte initial de réservation.", 
-      icon: PenTool 
-    },
-    { 
-      title: "Activation", 
-      time: "72 h", 
-      desc: "Accès total à l'OS, remise du kit marketing et démarrage du cycle de formation intensive.", 
-      icon: Zap 
-    }
-  ];
+  const { t } = useTranslation();
+  const stepsData = t("process.steps_data", { returnObjects: true }) as Array<{
+    title: string;
+    time: string;
+    desc: string;
+  }>;
 
-  const checklist = [
-    "Curriculum Vitae (CV) détaillé du porteur de projet",
-    "Présentation de l'entreprise locale (si existante)",
-    "Note d'intention sur le potentiel du territoire",
-    "Preuve de capacité financière pour le ticket d'entrée",
-    "Plan de développement sommaire sur 12 mois"
-  ];
+  const checklist = t("process.checklist_items", { returnObjects: true }) as string[];
+
+  const icons = [ClipboardList, Search, MessageSquare, FileText, PenTool, Zap];
 
   return (
     <div className="bg-black text-white py-16 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight">
-            Processus <br /><span className="text-orange-500">d'Accréditation</span>
+            {t("process.title")} <br /><span className="text-orange-500">{t("process.title_accent")}</span>
           </h1>
           <p className="text-base text-gray-400 max-w-3xl leading-relaxed font-medium">
-            Devenez le prochain partenaire exclusif Helloopass. Notre processus est conçu pour être rapide, rigoureux et totalement transparent.
+            {t("process.description")}
           </p>
         </div>
 
@@ -76,8 +41,8 @@ const Process = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 relative z-10">
-            {steps.map((step, idx) => {
-              const Icon = step.icon;
+            {stepsData.map((step, idx) => {
+              const Icon = icons[idx] || ClipboardList;
               return (
                 <motion.div 
                   key={idx}
@@ -109,7 +74,7 @@ const Process = () => {
         <div className="bg-zinc-950 rounded-[2.5rem] p-8 md:p-12 border border-white/5 relative overflow-hidden shadow-xl">
           <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-8 uppercase tracking-tight">Checklist <br /><span className="text-orange-500">Dossier Complet</span></h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-8 uppercase tracking-tight">{t("process.checklist_title")} <br /><span className="text-orange-500">{t("process.checklist_accent")}</span></h2>
               <div className="space-y-3">
                 {checklist.map((item, i) => (
                   <div key={i} className="flex items-center gap-5 p-4 bg-black border border-white/5 rounded-xl hover:border-orange-500/30 transition-all group">
@@ -123,14 +88,14 @@ const Process = () => {
             </div>
             
             <div className="bg-orange-500 p-8 md:p-10 rounded-[2rem] text-white shadow-xl shadow-orange-500/20 text-center">
-              <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight">Prêt à démarrer l'aventure ?</h3>
-              <p className="text-base font-bold mb-8 text-white/90 uppercase tracking-widest">Le formulaire ne prend que 5 minutes.</p>
+              <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight">{t("process.cta_title")}</h3>
+              <p className="text-base font-bold mb-8 text-white/90 uppercase tracking-widest">{t("process.cta_desc")}</p>
               <Link to="/candidature">
                 <Button className="w-full h-14 text-lg font-bold bg-white text-orange-500 hover:bg-zinc-100 rounded-xl shadow-lg transition-all">
-                  Lancer ma demande <ArrowRight className="ml-2" size={20} />
+                  {t("process.cta_button")} <ArrowRight className="ml-2" size={20} />
                 </Button>
               </Link>
-              <p className="mt-5 text-[7px] font-bold uppercase tracking-[0.4em] text-white/60">Aucun engagement requis à cette étape.</p>
+              <p className="mt-5 text-[7px] font-bold uppercase tracking-[0.4em] text-white/60">{t("process.cta_disclaimer")}</p>
             </div>
           </div>
         </div>

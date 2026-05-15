@@ -6,8 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { COUNTRIES } from "../lib/constants";
+import { useTranslation, Trans } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,7 +20,7 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message envoyé avec succès ! Un expert franchise vous contactera sous 24h.");
+    toast.success(t("contact.form.success"));
     setFormData({ name: "", email: "", phone: "", territory: "", message: "" });
   };
 
@@ -27,10 +29,10 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight">
-            Contactez-<span className="text-orange-500">nous</span>
+            <Trans i18nKey="contact.title"><span className="text-orange-500"></span></Trans>
           </h1>
           <p className="text-base text-gray-400 max-w-3xl leading-relaxed font-medium">
-            Une question stratégique ou besoin de précisions sur le déploiement technique ? Nos bureaux d'Amsterdam et nos experts régionaux sont à votre écoute.
+            {t("contact.description")}
           </p>
         </div>
 
@@ -43,9 +45,9 @@ const Contact = () => {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">Email Direct</h4>
+                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">{t("contact.info.email")}</h4>
                   <p className="text-gray-400 font-bold text-sm break-all">franchise@helloopass.net</p>
-                  <p className="text-[7px] text-orange-500 font-bold uppercase tracking-[0.4em] mt-1.5">Réponse sous 24h</p>
+                  <p className="text-[7px] text-orange-500 font-bold uppercase tracking-[0.4em] mt-1.5">{t("contact.info.email_desc")}</p>
                 </div>
               </div>
 
@@ -54,10 +56,9 @@ const Contact = () => {
                   <Globe size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">Siège Social</h4>
+                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">{t("contact.info.hq")}</h4>
                   <p className="text-gray-400 font-bold text-sm leading-relaxed">
-                    World Open Services R&D BV <br />
-                    Amsterdam, Pays-Bas
+                    <Trans i18nKey="contact.info.hq_desc"><br /></Trans>
                   </p>
                 </div>
               </div>
@@ -67,10 +68,9 @@ const Contact = () => {
                   <Clock size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">Support</h4>
+                  <h4 className="font-bold text-lg mb-0.5 uppercase tracking-tight">{t("contact.info.support")}</h4>
                   <p className="text-gray-400 font-bold text-sm leading-relaxed">
-                    Lundi - Vendredi <br />
-                    09:00 - 18:00 (GMT+1)
+                    <Trans i18nKey="contact.info.support_desc"><br /></Trans>
                   </p>
                 </div>
               </div>
@@ -78,10 +78,10 @@ const Contact = () => {
 
             <div className="p-6 bg-orange-500 rounded-2xl text-white shadow-xl transition-transform hover:scale-[1.01]">
               <MessageSquare size={36} className="mb-5 opacity-30" />
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight italic">Canal d'urgence</h3>
-              <p className="font-bold mb-6 text-white/90 text-sm leading-relaxed">Investisseur institutionnel ou représentant gouvernemental ?</p>
+              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight italic">{t("contact.emergency.title")}</h3>
+              <p className="font-bold mb-6 text-white/90 text-sm leading-relaxed">{t("contact.emergency.desc")}</p>
               <Button className="bg-black text-white hover:bg-zinc-900 w-full rounded-xl h-12 font-bold uppercase tracking-widest text-[9px]">
-                Accès Prioritaire
+                {t("contact.emergency.cta")}
               </Button>
             </div>
           </div>
@@ -91,7 +91,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="bg-zinc-950 p-8 md:p-12 rounded-[2.5rem] border border-white/5 space-y-8 relative overflow-hidden shadow-xl">
               <div className="grid md:grid-cols-2 gap-6 relative z-10">
                 <div className="space-y-2">
-                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">Nom complet</Label>
+                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{t("contact.form.name")}</Label>
                   <Input 
                     required
                     placeholder="Jean Dupont"
@@ -101,7 +101,7 @@ const Contact = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">Email professionnel</Label>
+                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{t("contact.form.email")}</Label>
                   <Input 
                     type="email" 
                     required
@@ -115,7 +115,7 @@ const Contact = () => {
               
               <div className="grid md:grid-cols-2 gap-6 relative z-10">
                 <div className="space-y-2">
-                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">Téléphone</Label>
+                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{t("contact.form.phone")}</Label>
                   <Input 
                     type="tel" 
                     required
@@ -126,32 +126,32 @@ const Contact = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">Territoire d'intérêt</Label>
+                  <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{t("contact.form.territory")}</Label>
                   <select 
                     className="w-full h-14 px-6 rounded-xl bg-black border border-white/10 text-white text-base font-bold appearance-none cursor-pointer focus:border-orange-500"
                     value={formData.territory}
                     onChange={(e) => setFormData({...formData, territory: e.target.value})}
                     required
                   >
-                    <option value="">SÉLECTIONNEZ UN PAYS</option>
+                    <option value="">{t("contact.form.territory_placeholder")}</option>
                     {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2 relative z-10">
-                <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">Votre message</Label>
+                <Label className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{t("contact.form.message")}</Label>
                 <Textarea 
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   className="bg-black border-white/10 text-base rounded-2xl p-6 focus:border-orange-500 leading-relaxed"
-                  placeholder="Expliquez-nous brièvement votre projet..."
+                  placeholder={t("contact.form.message_placeholder")}
                 />
               </div>
 
               <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 h-14 text-lg font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] group relative z-10">
-                Envoyer le message <Send className="ml-3 group-hover:translate-x-1 transition-transform" size={20} />
+                {t("contact.form.submit")} <Send className="ml-3 group-hover:translate-x-1 transition-transform" size={20} />
               </Button>
             </form>
           </div>

@@ -1,0 +1,314 @@
+{
+  "nav": {
+    "concept": "Concept",
+    "business": "Business",
+    "countries": "Countries",
+    "calculator": "Calculator",
+    "steps": "Steps",
+    "law": "Legal",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "become_franchisee": "Become a franchisee"
+  },
+  "hero": {
+    "badge": "Global Trade Infrastructure",
+    "title_1": "Become the",
+    "title_highlight": "Exclusive Representative",
+    "title_2": "Helloopass OS for your country",
+    "description": "You hold the Master License. You provide access to the communities in your territory by supplying them with regular licenses. Just as Visa provides tools to banks, you provide tools to communities.",
+    "cta_primary": "Become a franchisee",
+    "cta_secondary": "The Concept"
+  },
+  "stats": {
+    "countries": {
+      "label": "Available Countries",
+      "value": "238",
+      "desc": "National exclusivity available across 238 territories worldwide."
+    },
+    "investment": {
+      "label": "Investment",
+      "value": "+100k USD",
+      "desc": "Price indexed to population (Population ÷ 200)."
+    },
+    "revenue": {
+      "label": "Revenue Share",
+      "value": "25%",
+      "desc": "Recurring commissions on every transaction in the territory."
+    }
+  },
+  "comparison": {
+    "title": "Visa vs Helloopass",
+    "subtitle": "The paradigm shift in financial infrastructure",
+    "visa": {
+      "title": "Visa",
+      "subtitle": "Bank Infrastructure",
+      "item_1": "Provides infrastructure to <0>Banks</0> only.",
+      "item_2": "Targets individual <0>Banked Customers</0>.",
+      "item_3": "Requires heavy and complex <0>e-money Licenses</0>."
+    },
+    "hello": {
+      "title": "Helloopass",
+      "subtitle": "Community Infrastructure",
+      "item_1": "Provides infrastructure to <0>Communities</0>.",
+      "item_2": "Targets <0>Members</0> of these ecosystems.",
+      "item_3": "<0>Voucher</0> system – No e-money license required."
+    }
+  },
+  "closed_loops": {
+    "title": "<0>Closed Loops</0> Ecosystem",
+    "description": "Members trade with each other using prepaid vouchers. Only authorized merchants can 'cash out', fully securing the circuit.",
+    "item_1": "Inter-connection via ACH (Automated Clearing House)",
+    "item_2": "Global Hpass Clearing House for cross-border trading",
+    "item_3": "Total real-time traceability of each unit of value"
+  },
+  "bnpl": {
+    "title": "BNPL <0>100% Profits</0>",
+    "description": "Unlike traditional models, Buy Now Pay Later revenues belong <0>100% to the Trade Community</0>. Helloopass provides the tool, you reap the value.",
+    "cta": "Economic Model",
+    "trad": {
+      "title": "Traditional BNPL",
+      "desc": "Credit model tailored to community consumption needs."
+    },
+    "merchant": {
+      "title": "Merchant BNPL",
+      "desc": "Direct financing via the network of authorized merchants."
+    }
+  },
+  "reasons": {
+    "title": "Why join us?",
+    "subtitle": "10 strategic reasons",
+    "reason_1": { "title": "Proven Model", "desc": "A robust and scalable infrastructure, already validated by major players on the ground." },
+    "reason_2": { "title": "Exclusive Territory", "desc": "Benefit from total exclusivity in your country to deploy Helloopass OS." },
+    "reason_3": { "title": "No Payment License", "desc": "The voucher system allows operations without e-money regulatory constraints." },
+    "reason_4": { "title": "Immense Market", "desc": "Target unions, NGOs, distributors, and the diaspora seeking to structure their exchanges." },
+    "reason_5": { "title": "Passive Income", "desc": "Generate recurring income on every transaction within your network." },
+    "reason_6": { "title": "Cross-communities", "desc": "Connect different closed loops for a limitless commercial ecosystem." },
+    "reason_7": { "title": "BNPL Models", "desc": "Integrate Buy Now Pay Later for the exclusive benefit of the Trade Community." },
+    "reason_8": { "title": "Turnkey Technology", "desc": "A complete, secure, and ready-to-use OS upon contract signature." },
+    "reason_9": { "title": "Training & Support", "desc": "End-to-end guidance from our experts to ensure your franchise success." },
+    "reason_10": { "title": "Unlimited Growth", "desc": "Infinite scalability: the more communities you integrate, the more your income grows." }
+  },
+  "why": {
+    "title": "The Infrastructure <0/> of the <1>Future</1>",
+    "description": "Helloopass OS provides infrastructure to communities (unions, NGOs, distributors, diaspora) that integrate their members. Communities create their closed loops to trade with each other and connect to other closed loops.",
+    "strategic_value": "Strategic value guaranteed",
+    "model": "The Helloopass OS Model",
+    "traditional_model": "Traditional Model (VISA)",
+    "hello_infrastructure": "HELLOOPASS Infrastructure",
+    "banks": "Banks",
+    "individual_clients": "Individual Clients",
+    "active_members": "Active Members",
+    "contract": {
+      "title": "Franchise Agreement (Art. 1.16)",
+      "quote": "The Helloopass points/voucher system allows community members to perform transactions within a closed loop without requiring an e-money license, as funds are non-refundable to buyers but only to authorized merchants."
+    }
+  },
+  "application": {
+    "title": "<0>Application</0> File",
+    "subtitle": "Helloopass OS International Expansion",
+    "steps": {
+      "step1": "Coordinates",
+      "step2": "Business",
+      "step3": "Territory",
+      "step4": "Experience",
+      "step5": "Finance",
+      "step6": "CV",
+      "step7": "Validation"
+    },
+    "form": {
+      "personal": "Personal Coordinates",
+      "personal_desc": "Project leader information.",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "birth": "Date of Birth",
+      "nat": "Nationality",
+      "email": "Direct Email",
+      "phone": "Phone",
+      "address": "Address",
+      "business": "Business Information",
+      "business_desc": "Details of your current structure.",
+      "company_name": "Company Name",
+      "legal": "Legal Status",
+      "reg_country": "Country of registration",
+      "year": "Year of creation",
+      "company_address": "Company Address",
+      "sector": "Field of activity",
+      "employees": "Employees",
+      "ca": "Annual Turnover",
+      "target": "Target Territory",
+      "target_desc": "The target country for exclusivity.",
+      "target_select": "SELECT YOUR TERRITORY",
+      "target_note": "By becoming a franchisee for <0>{{country}}</0>, you will be the sole provider of the OS.",
+      "choose_country": "Choose a country...",
+      "exp": "Experience & Motivations",
+      "exp_desc": "Your background and interest in Helloopass.",
+      "exp_years": "Years of experience",
+      "existing": "Existing franchise?",
+      "network": "Current network (if applicable)",
+      "motivations": "Your motivations",
+      "motivations_placeholder": "Why do you want to join the Helloopass network?",
+      "finance": "Financial Capacity",
+      "finance_desc": "Assessment of resources for deployment.",
+      "budget": "Global Budget (USD/EUR)",
+      "deposit": "Immediately available deposit",
+      "payment": "Phased payment proposal",
+      "finance_note": "Note: This information is confidential and serves only to assess the project's feasibility.",
+      "cv": "Upload CV",
+      "cv_desc": "PDF format exclusively.",
+      "cv_choose": "Click to choose a file",
+      "cv_max": "Maximum 5MB • PDF only",
+      "cv_ready": "PDF ready for submission",
+      "delete": "Delete",
+      "consent": "Final Consent",
+      "consent_desc": "Final step.",
+      "consent_legal": "By submitting this form, you acknowledge that the information provided is accurate and true. Helloopass OS commits to handling your data confidentially in accordance with its privacy policy.",
+      "consent_check": "I certify that the information provided is accurate. I accept the processing of my data for the examination of my application.",
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit File",
+      "processing": "Processing..."
+    },
+    "success": {
+      "title": "Application Received!",
+      "desc": "Congratulations {{name}}, your file for <0>{{country}}</0> has been transmitted.",
+      "id_label": "Your Candidate ID",
+      "contact_note": "A franchise expert will contact you within 3 to 5 days.",
+      "home": "Back to Home"
+    },
+    "errors": {
+      "mandatory": "Please fill in the required information (Name, First Name, Email, Phone).",
+      "business": "Please provide at least the name and sector of your business.",
+      "territory": "Please select a territory.",
+      "cv": "Please upload your CV in PDF format.",
+      "consent": "Please accept the conditions to continue.",
+      "pdf_only": "Only PDF files are accepted.",
+      "upload": "Error during submission: {{error}}"
+    }
+  },
+  "contact": {
+    "title": "Contact <0>us</0>",
+    "description": "Strategic question or need technical deployment details? Our Amsterdam offices and regional experts are here to help.",
+    "info": {
+      "email": "Direct Email",
+      "email_desc": "Response within 24h",
+      "hq": "Headquarters",
+      "hq_desc": "World Open Services R&D BV <0/> Amsterdam, Netherlands",
+      "support": "Support",
+      "support_desc": "Monday - Friday <0/> 09:00 - 18:00 (GMT+1)"
+    },
+    "emergency": {
+      "title": "Emergency Channel",
+      "desc": "Institutional investor or government representative?",
+      "cta": "Priority Access"
+    },
+    "form": {
+      "name": "Full name",
+      "email": "Work email",
+      "phone": "Phone",
+      "territory": "Territory of interest",
+      "territory_placeholder": "SELECT A COUNTRY",
+      "message": "Your message",
+      "message_placeholder": "Briefly explain your project...",
+      "submit": "Send message",
+      "success": "Message sent successfully! A franchise expert will contact you within 24h."
+    }
+  },
+  "admin": {
+    "title": "Backend Access",
+    "subtitle": "Administrators only",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "logging_in": "Connecting...",
+    "legal": "By accessing this space, you accept the security and confidentiality terms of World Open Services BV.",
+    "success": "Login successful! Welcome superadmin.",
+    "error": "Incorrect credentials. Please try again.",
+    "unauthorized": "Unauthorized access. Please login."
+  },
+  "footer": {
+    "desc": "The Operating System to Trade for communities. We provide the technological infrastructure to unlock large-scale commerce.",
+    "nav": "Navigation",
+    "partnership": "Partnership",
+    "contact": "Contact",
+    "admin_access": "Admin Access",
+    "rights": "© 2025 World Open Services R&D BV – All rights reserved.",
+    "legal": "Legal Mentions",
+    "privacy": "Privacy Policy"
+  },
+  "cta_final": {
+    "title": "Your territory <0/> is waiting for you",
+    "button": "Apply Now",
+    "countries": "238 COUNTRIES",
+    "availability": "global availability"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "logout": "Logout",
+    "role": {
+      "super": "Super Admin Space",
+      "admin": "Admin Space"
+    },
+    "stats": {
+      "applications": "Applications",
+      "approved": "Approved",
+      "pending": "Pending",
+      "agents": "Agents"
+    },
+    "tabs": {
+      "applications": "Applications",
+      "agents": "Agent Management"
+    },
+    "search": {
+      "placeholder": "Search...",
+      "button": "Search",
+      "all": "All",
+      "id": "System ID",
+      "email": "Email",
+      "business": "Company",
+      "name": "Name"
+    },
+    "table": {
+      "id": "Candidate ID",
+      "candidate": "Candidate",
+      "territory": "Territory",
+      "date": "Date",
+      "status": "Status",
+      "actions": "Actions",
+      "loading": "Loading...",
+      "empty": "No applications found.",
+      "list_title": "Application List",
+      "list_desc": "Manage and update franchise records.",
+      "export": "Export CSV",
+      "details": "View Details",
+      "change_status": "Change Status"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "active": "Activated",
+      "exclusive": "Allocated Exclusive",
+      "non_exclusive": "Allocated Non-Exclusive",
+      "rejected": "Rejected",
+      "disabled": "Disabled"
+    },
+    "agents": {
+      "title": "Access Management",
+      "desc": "Create and manage administrator accounts.",
+      "new": "New Agent",
+      "id": "Agent ID",
+      "user": "User",
+      "role": "Role",
+      "status": "Status",
+      "active": "Active",
+      "disabled": "Disabled",
+      "edit": "Edit",
+      "read_only": "Set Read-only",
+      "admin": "Set Admin",
+      "super_admin": "Set Super Admin",
+      "deactivate": "Deactivate",
+      "reactivate": "Reactivate",
+      "success_role": "Role updated",
+      "success_status": "Agent status updated"
+    }
+  }
+}

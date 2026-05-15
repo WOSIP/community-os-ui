@@ -1,36 +1,32 @@
 import React from "react";
-import { FileText, Download, ShieldCheck, CheckCircle, Info, Lock } from "lucide-react";
+import { FileText, Download, ShieldCheck, CheckCircle, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 
 const ContractModels = () => {
+  const { t } = useTranslation();
   const handleDownload = () => {
-    toast.success("Préparation du pack ZIP...");
+    toast.success(t("contract_models.toast_preparing"));
   };
 
-  const annexes = [
-    "Annexe 1 : Spécifications techniques",
-    "Annexe 2 : Grille tarifaire TC",
-    "Annexe 3 : Manuel opératoire (SOP)",
-    "Annexe 4 : Charte graphique",
-    "Annexe 5 : Service Level Agreement (SLA)",
-    "Annexe 6 : Protocole Clearing ACH"
-  ];
+  const annexes = t("contract_models.master_annexes", { returnObjects: true }) as string[];
 
-  const licenses = [
-    { title: "Free", limit: "Max 500 membres", price: "0$", desc: "Pack découverte pour tester l'écosystème." },
-    { title: "Standard", limit: "Max 5000 membres", price: "5000$", desc: "Pour les associations et distributeurs régionaux." },
-    { title: "Platinum", limit: "Illimité", price: "25000$", desc: "Accès total et fonctionnalités BNPL avancées." }
-  ];
+  const licenses = t("contract_models.licenses", { returnObjects: true }) as Array<{
+    title: string;
+    limit: string;
+    price: string;
+    desc: string;
+  }>;
 
   return (
     <div className="bg-black text-white py-16 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight">Cadre <span className="text-orange-500">Contractuel</span></h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight">{t("contract_models.title")} <span className="text-orange-500">{t("contract_models.title_accent")}</span></h1>
           <p className="text-base text-gray-400 max-w-3xl leading-relaxed font-medium">
-            Consultez les modèles de documents qui régiront votre partenariat exclusif avec Helloopass OS.
+            {t("contract_models.description")}
           </p>
         </div>
 
@@ -40,9 +36,9 @@ const ContractModels = () => {
              <ShieldCheck className="text-orange-500" size={32} />
            </div>
            <div className="relative z-10">
-             <h3 className="text-xl font-bold mb-3 uppercase tracking-tight">Avertissement Documentaire</h3>
+             <h3 className="text-xl font-bold mb-3 uppercase tracking-tight">{t("contract_models.disclaimer_title")}</h3>
              <p className="text-gray-400 text-base leading-relaxed font-medium">
-               Les documents présentés sont des versions standard. Un contrat final sera édité pour intégrer les spécificités réglementaires de votre territoire national.
+               {t("contract_models.disclaimer_text")}
              </p>
            </div>
         </div>
@@ -54,13 +50,13 @@ const ContractModels = () => {
              <div className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center text-white mb-8 shadow-lg">
                <Lock size={24} />
              </div>
-             <h2 className="text-2xl font-bold mb-4 uppercase tracking-tight">Accord de Franchise</h2>
+             <h2 className="text-2xl font-bold mb-4 uppercase tracking-tight">{t("contract_models.master_title")}</h2>
              <p className="text-gray-400 mb-8 text-base leading-relaxed font-medium">
-               Le contrat cadre définissant les droits d'exploitation exclusifs et les standards de qualité.
+               {t("contract_models.master_desc")}
              </p>
              
              <div className="space-y-3 mb-10">
-               <h4 className="text-orange-500 font-bold uppercase tracking-[0.3em] text-[7px]">Annexes Incluses :</h4>
+               <h4 className="text-orange-500 font-bold uppercase tracking-[0.3em] text-[7px]">{t("contract_models.master_annexes_label")}</h4>
                <div className="grid gap-2.5">
                  {annexes.map((annexe, i) => (
                    <div key={i} className="flex gap-3 items-center text-gray-400 bg-black/40 p-3.5 rounded-xl border border-white/5">
@@ -71,8 +67,8 @@ const ContractModels = () => {
                </div>
              </div>
 
-             <Button onClick={handleDownload} className="w-full h-14 bg-orange-500 hover:bg-orange-600 font-bold text-lg rounded-xl shadow-lg transition-all active:scale-[0.98]">
-               Télécharger le Pack ZIP <Download className="ml-3" size={20} />
+             <Button onClick={handleDownload} className="w-full h-14 bg-orange-500 hover:bg-orange-600 font-bold text-lg rounded-xl shadow-lg transition-all active:scale-[0.98] text-white">
+               {t("contract_models.master_button")} <Download className="ml-3" size={20} />
              </Button>
           </div>
 
@@ -81,9 +77,9 @@ const ContractModels = () => {
              <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-gray-500 mb-8">
                <FileText size={24} />
              </div>
-             <h2 className="text-2xl font-bold mb-4 uppercase tracking-tight">Licences Régulières</h2>
+             <h2 className="text-2xl font-bold mb-4 uppercase tracking-tight">{t("contract_models.regular_title")}</h2>
              <p className="text-gray-400 mb-8 text-base leading-relaxed font-medium">
-               Modèles de licences que vous revendrez aux Trade Communities de votre pays.
+               {t("contract_models.regular_desc")}
              </p>
 
              <div className="space-y-5">
@@ -107,13 +103,13 @@ const ContractModels = () => {
 
         {/* Final CTA */}
         <div className="bg-zinc-900 p-10 md:p-14 rounded-[2.5rem] text-center max-w-3xl mx-auto border border-white/5 shadow-xl">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 uppercase tracking-tight">Besoin d'un modèle spécifique ?</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-4 uppercase tracking-tight">{t("contract_models.footer_title")}</h2>
           <p className="text-gray-400 text-base mb-8 font-medium max-w-2xl mx-auto">
-            Notre service juridique peut vous fournir des drafts personnalisés pour les banques ou les régulateurs locaux.
+            {t("contract_models.footer_desc")}
           </p>
           <Link to="/contact">
             <Button variant="outline" className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white h-14 px-10 text-lg font-bold rounded-xl transition-all shadow-lg">
-              Contacter le service juridique
+              {t("contract_models.footer_button")}
             </Button>
           </Link>
         </div>

@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,15 +24,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   const navLinks = [
-    { name: "Concept", path: "/pourquoi" },
-    { name: "Business", path: "/modele-economique" },
-    { name: "Pays", path: "/territoires" },
-    { name: "Calculateur", path: "/prix" },
-    { name: "\u00c9tapes", path: "/processus" },
-    { name: "Droit", path: "/modeles-contrat" },
-    { name: "FAQ", path: "/faq" },
-    { name: "Contact", path: "/contact" },
+    { name: t("nav.concept"), path: "/pourquoi" },
+    { name: t("nav.business"), path: "/modele-economique" },
+    { name: t("nav.countries"), path: "/territoires" },
+    { name: t("nav.calculator"), path: "/prix" },
+    { name: t("nav.steps"), path: "/processus" },
+    { name: t("nav.law"), path: "/modeles-contrat" },
+    { name: t("nav.faq"), path: "/faq" },
+    { name: t("nav.contact"), path: "/contact" },
   ];
 
   return (
@@ -55,15 +67,50 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link to="/candidature" className="ml-4">
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white border-none rounded-lg h-9 px-4 text-[9px] font-bold uppercase tracking-widest shadow-md shadow-orange-500/10">
-                  Devenir franchis\u00e9
-                </Button>
-              </Link>
+              
+              <div className="ml-4 flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-white hover:bg-white/5">
+                      <Globe size={16} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10 text-white">
+                    <DropdownMenuItem onClick={() => changeLanguage('fr')} className="cursor-pointer font-bold uppercase text-[10px]">
+                      Français {i18n.language === 'fr' && "✓"}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => changeLanguage('en')} className="cursor-pointer font-bold uppercase text-[10px]">
+                      English {i18n.language === 'en' && "✓"}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <Link to="/candidature">
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white border-none rounded-lg h-9 px-4 text-[9px] font-bold uppercase tracking-widest shadow-md shadow-orange-500/10">
+                    {t("nav.become_franchisee")}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9 text-white bg-white/5 rounded-lg border border-white/10">
+                    <Globe size={18} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10 text-white">
+                  <DropdownMenuItem onClick={() => changeLanguage('fr')} className="cursor-pointer font-bold uppercase text-[10px]">
+                    Français {i18n.language === 'fr' && "✓"}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => changeLanguage('en')} className="cursor-pointer font-bold uppercase text-[10px]">
+                    English {i18n.language === 'en' && "✓"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 text-white bg-white/5 rounded-lg border border-white/10"
@@ -108,7 +155,7 @@ const Navbar = () => {
               className="mt-4"
             >
               <Button className="w-full h-14 bg-orange-500 hover:bg-orange-600 text-base font-bold rounded-xl uppercase tracking-widest">
-                Devenir franchis\u00e9
+                {t("nav.become_franchisee")}
               </Button>
             </Link>
           </div>
