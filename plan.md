@@ -1,22 +1,34 @@
-# Fix Localization Issues
+# Implementation Plan - Multi-language Support (i18n) & Content Updates
 
-The goal is to fix the language display issues across the application. There seems to be a redundancy or mismatch between `src/locales/*.json` and `src/locales/*/translation.json`.
+This plan outlines the steps to add English language support and update content on the Helloopass web portal.
 
-## Phase 1: Audit and Cleanup
-1. Inspect `src/lib/i18n.ts` to determine the current configuration and which translation files are being loaded.
-2. Compare the content of `src/locales/en.json` vs `src/locales/en/translation.json` (and same for French).
-3. Consolidate translations into a single structure (preferably `src/locales/{{lng}}/translation.json` if using common i18next patterns, or just `src/locales/{{lng}}.json`).
+## 1. Environment Setup (COMPLETED)
+- Install required packages: `i18next`, `react-i18next`, `i18next-browser-languagedetector`.
 
-## Phase 2: Configuration Fixes
-1. Standardize `src/lib/i18n.ts` to use the chosen structure.
-2. Ensure `lng` is correctly initialized (e.g., from localStorage if available, otherwise default).
-3. Verify that `useTranslation` is used correctly in components.
+## 2. Configuration (COMPLETED)
+- Create locale files: `src/locales/fr/translation.json` and `src/locales/en/translation.json`.
+- Initialize i18next in `src/lib/i18n.ts`.
+- Import `src/lib/i18n.ts` in `src/main.tsx`.
 
-## Phase 3: Component Verification
-1. Check `Navbar.tsx` to ensure the language switcher works and correctly updates the state/i18n instance.
-2. Verify that all hardcoded strings in pages are actually replaced by `t()` calls.
-3. Ensure that the language change persists or at least updates the entire UI immediately.
+## 3. Content Updates
+### Country Count Adjustment
+- Update `src/locales/en/translation.json` and `src/locales/fr/translation.json`:
+  - Change "238" to "183" in `stats.countries.value`.
+  - Change "238" to "183" in `stats.countries.desc`.
+  - Change "238" to "183" in `cta.stats_value`.
 
-## Phase 4: Validation
-1. Run `validate_build`.
-2. Manual verification (mental check) of the language switcher logic.
+### Localization Fixes (Concept Page)
+- Update `src/pages/Why.tsx`:
+  - Ensure the hero title uses proper translation keys and safe React components.
+  - Fix any potential "Minified React error #137" related to `<Trans>` component usage with void elements like `<br />`.
+  - Ensure all sections use `t()` or `<Trans>` correctly.
+
+## 4. UI Implementation
+### Standardize Localization
+- Ensure consistent use of `useTranslation` across all pages.
+- Verify that language switching in `Navbar.tsx` updates all components immediately.
+
+## 5. Verification
+- Run `validate_build` to ensure no TypeScript or runtime errors.
+- Test language switching functionality.
+- Verify the country count is updated on the landing page in both languages.

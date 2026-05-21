@@ -1,17 +1,17 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import frTranslations from "../locales/fr.json";
-import enTranslations from "../locales/en.json";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import en from '../locales/en.json';
+import fr from '../locales/fr.json';
 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
-      fr: { translation: frTranslations },
-      en: { translation: enTranslations },
+      en: { translation: en },
+      fr: { translation: fr },
     },
-    lng: "fr", // default language
-    fallbackLng: "fr",
+    lng: 'fr', // default language
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },

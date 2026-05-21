@@ -1,121 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronRight, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Globe, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "en" ? "fr" : "en";
+    i18n.changeLanguage(newLang);
   };
 
-  const navLinks = [
+  const navItems = [
     { name: t("nav.concept"), path: "/pourquoi" },
     { name: t("nav.business"), path: "/modele-economique" },
     { name: t("nav.countries"), path: "/territoires" },
     { name: t("nav.calculator"), path: "/prix" },
     { name: t("nav.steps"), path: "/processus" },
-    { name: t("nav.law"), path: "/modeles-contrat" },
-    { name: t("nav.faq"), path: "/faq" },
     { name: t("nav.contact"), path: "/contact" },
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
-      scrolled ? "bg-black/95 backdrop-blur-xl border-b border-white/5 h-16" : "bg-transparent h-20"
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex items-center justify-between h-full">
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-lg md:text-xl font-bold text-white flex items-center gap-1.5 group">
-              <span className="text-orange-500">H</span>ELLOOPASS
-              <div className="w-1 h-1 bg-orange-500 rounded-full animate-pulse"></div>
+    <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-2">
+              <span className="text-2xl font-black tracking-tighter text-white">
+                HELLOOPASS<span className="text-orange-500">.</span>
+              </span>
             </Link>
           </div>
-          
-          <div className="hidden lg:block">
-            <div className="flex items-center gap-1">
-              {navLinks.map((link) => (
+
+          {/* Desktop Nav */}
+          <div className="hidden md:block">
+            <div className="flex items-center gap-8">
+              {navItems.map((item) => (
                 <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-[0.15em] transition-all ${
-                    location.pathname === link.path 
-                    ? "text-orange-500 bg-orange-500/10" 
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                  key={item.path}
+                  to={item.path}
+                  className={`text-sm font-bold uppercase tracking-widest transition-colors ${
+                    location.pathname === item.path
+                      ? "text-orange-500"
+                      : "text-gray-400 hover:text-white"
                   }`}
                 >
-                  {link.name}
+                  {item.name}
                 </Link>
               ))}
-              
-              <div className="ml-4 flex items-center gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-white hover:bg-white/5">
-                      <Globe size={16} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10 text-white">
-                    <DropdownMenuItem onClick={() => changeLanguage('fr')} className="cursor-pointer font-bold uppercase text-[10px]">
-                      Français {i18n.language === 'fr' && "✓"}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => changeLanguage('en')} className="cursor-pointer font-bold uppercase text-[10px]">
-                      English {i18n.language === 'en' && "✓"}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Link to="/candidature">
-                  <Button className="bg-orange-500 hover:bg-orange-600 text-white border-none rounded-lg h-9 px-4 text-[9px] font-bold uppercase tracking-widest shadow-md shadow-orange-500/10">
-                    {t("nav.become_franchisee")}
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
 
-          <div className="lg:hidden flex items-center gap-2">
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 text-white bg-white/5 rounded-lg border border-white/10">
-                    <Globe size={18} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10 text-white">
-                  <DropdownMenuItem onClick={() => changeLanguage('fr')} className="cursor-pointer font-bold uppercase text-[10px]">
-                    Français {i18n.language === 'fr' && "✓"}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => changeLanguage('en')} className="cursor-pointer font-bold uppercase text-[10px]">
-                    English {i18n.language === 'en' && "✓"}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+          <div className="hidden md:flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleLanguage}
+              className="text-gray-400 hover:text-white flex items-center gap-2"
+            >
+              <Globe size={16} />
+              <span className="uppercase font-bold text-xs">{i18n.language}</span>
+            </Button>
+            <Link to="/candidature">
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase text-xs tracking-widest px-6">
+                {t("nav.become_franchisee")}
+              </Button>
+            </Link>
+          </div>
 
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleLanguage}
+              className="text-gray-400 hover:text-white"
+            >
+              <Globe size={18} />
+            </Button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-white bg-white/5 rounded-lg border border-white/10"
+              className="text-gray-400 hover:text-white"
             >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -123,38 +94,20 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden bg-black fixed top-0 left-0 w-full h-screen z-[90] p-6 flex flex-col">
-          <div className="flex justify-between items-center mb-10">
-            <Link to="/" onClick={() => setIsOpen(false)} className="text-lg font-bold text-white">
-              <span className="text-orange-500">H</span>ELLOOPASS
-            </Link>
-            <button onClick={() => setIsOpen(false)} className="p-2 text-white bg-white/5 rounded-lg border border-white/10">
-              <X size={20} />
-            </button>
-          </div>
-          
-          <div className="flex flex-col gap-2">
-            {navLinks.map((link) => (
+        <div className="md:hidden bg-zinc-950 border-b border-white/10">
+          <div className="px-4 pt-2 pb-6 space-y-4">
+            {navItems.map((item) => (
               <Link
-                key={link.name}
-                to={link.path}
+                key={item.path}
+                to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center justify-between p-3.5 rounded-xl text-base font-bold uppercase tracking-widest transition-all ${
-                  location.pathname === link.path 
-                  ? "bg-orange-500 text-white" 
-                  : "bg-white/5 text-gray-400 hover:text-white"
-                }`}
+                className="block text-lg font-bold uppercase tracking-widest text-gray-400 hover:text-white"
               >
-                {link.name}
-                <ChevronRight size={18} />
+                {item.name}
               </Link>
             ))}
-            <Link
-              to="/candidature"
-              onClick={() => setIsOpen(false)}
-              className="mt-4"
-            >
-              <Button className="w-full h-14 bg-orange-500 hover:bg-orange-600 text-base font-bold rounded-xl uppercase tracking-widest">
+            <Link to="/candidature" onClick={() => setIsOpen(false)}>
+              <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-widest py-6">
                 {t("nav.become_franchisee")}
               </Button>
             </Link>

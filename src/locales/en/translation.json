@@ -22,8 +22,8 @@
   "stats": {
     "countries": {
       "label": "Available Countries",
-      "value": "238",
-      "desc": "National exclusivity available across 238 territories worldwide."
+      "value": "183",
+      "desc": "National exclusivity available across 183 territories worldwide."
     },
     "investment": {
       "label": "Investment",
@@ -51,7 +51,7 @@
       "sublabel": "Community Infrastructure",
       "point1": "Provides infrastructure to <1>Communities</1>.",
       "point2": "Targets <1>Members</1> of these ecosystems.",
-      "point3": "<1>Voucher</1> system – No e-money license required."
+      "point3": "<1>Voucher</1> system \u2013 No e-money license required."
     }
   },
   "closed_loops": {
@@ -104,7 +104,7 @@
     "hellopass_node2": "Communities (Union/NGO)",
     "hellopass_node3": "Active Members",
     "excerpt_title": "Franchise Agreement (Art. 1.16)",
-    "excerpt_text": "« The Helloopass points/voucher system allows community members to conduct transactions within a closed loop without requiring an e-money license, as funds are not refundable to buyers but only to authorized merchants. »"
+    "excerpt_text": "\u00ab The Helloopass points/voucher system allows community members to conduct transactions within a closed loop without requiring an e-money license, as funds are not refundable to buyers but only to authorized merchants. \u00bb"
   },
   "economic_model": {
     "title": "Economic",
@@ -151,7 +151,7 @@
     "nb_tc_label": "Number of Trade Communities (TC)",
     "volume_label": "Average Monthly Volume per TC (USD)",
     "estimated_revenue": "Estimated Monthly Revenue",
-    "calc_info": "1.5% Commission × 25% Franchisee Share",
+    "calc_info": "1.5% Commission \u00d7 25% Franchisee Share",
     "example_title": "Ivory Coast Example",
     "example_desc": "<1>10 TCs</1> volume <1>$1M</1> = <1>$37,500 / month</1>"
   },
@@ -258,7 +258,7 @@
     },
     "contact_title": "Contact",
     "admin_access": "Admin Access",
-    "rights": "© 2025 World Open Services R&D BV – All rights reserved.",
+    "rights": "\u00a9 2025 World Open Services R&D BV \u2013 All rights reserved.",
     "legal": "Legal Mentions",
     "privacy": "Privacy Policy"
   },
@@ -266,78 +266,7 @@
     "title_part1": "Your territory",
     "title_part2": "is waiting for you",
     "button": "Apply now",
-    "stats_value": "238 COUNTRIES",
+    "stats_value": "183 COUNTRIES",
     "stats_label": "worldwide availability"
-  },
-  "pricing": {
-    "title": "Investment",
-    "title_accent": "Franchise",
-    "description": "A fair and transparent pricing model, indexed directly to the population of your exclusive territory.",
-    "formula_title": "The Formula",
-    "formula_value": "Population ÷ 200",
-    "formula_point1": "Minimum entry ticket: <1>100,000 USD</1>",
-    "formula_point2": "Maximum ceiling: <1>1,000,000 USD</1>",
-    "formula_point3": "Guaranteed lifetime national exclusivity",
-    "references_title": "Global References",
-    "simulator_title": "Price Simulator",
-    "simulator_label": "Target territory population",
-    "simulator_unit": "Inhabitants",
-    "simulator_cost_label": "Exclusive Franchise Cost",
-    "simulator_info": "This one-time fee covers the exclusive operating license, access to the Helloopass OS, and initial training.",
-    "simulator_cta": "Reserve this territory",
-    "examples": [
-      { "country": "Singapore", "pop": "5.9M", "price": "100,000" },
-      { "country": "Ivory Coast", "pop": "28M", "price": "168,000" },
-      { "country": "France", "pop": "68M", "price": "340,000" },
-      { "country": "United States", "pop": "333M", "price": "1,000,000" }
-    ]
-  },
-  "faq": {
-    "badge": "Support Center",
-    "title": "Frequently Asked",
-    "title_accent": "Questions",
-    "description": "Find answers to the most common questions about the Helloopass franchise model.",
-    "cta_title": "More questions?",
-    "cta_desc": "Our team of experts is here to support you in your national franchise project.",
-    "cta_button": "Contact Us",
-    "data": [
-      {
-        "category": "General",
-        "questions": [
-          { "q": "What is a Master License?", "a": "It is the exclusive right to operate Helloopass OS in a territory and to grant regular licenses to Trade Communities." },
-          { "q": "What is the franchise duration?", "a": "7 years, renewable by mutual agreement." },
-          { "q": "Can I resell my franchise?", "a": "Yes, with the approval of the Franchisor (right of first refusal)." }
-        ]
-      },
-      {
-        "category": "Financial",
-        "questions": [
-          { "q": "What is the minimum franchise price?", "a": "100,000 USD. The price is calculated using the formula Population ÷ 200, with a minimum of 100k and a maximum of 1M USD." },
-          { "q": "Are there any hidden fees?", "a": "No. The only fees are the entry price and the obligation to dedicate 10% of Growth Revenue to local marketing." },
-          { "q": "What are the potential revenues?", "a": "You earn 25% on each transaction, plus 70% of activation fees and annual royalties from Trade Communities." }
-        ]
-      },
-      {
-        "category": "Regulatory",
-        "questions": [
-          { "q": "Do I need a payment license?", "a": "No. Helloopass operates on a voucher system. Buyers cannot 'cash out'. No e-money license required." },
-          { "q": "Is the system legal?", "a": "Yes. The closed-loop voucher model is legal in most countries. Trade Communities need a simple business license." }
-        ]
-      },
-      {
-        "category": "Operational",
-        "questions": [
-          { "q": "Do I need technical skills?", "a": "No. The technology is provided turnkey. You receive training." },
-          { "q": "What support is provided?", "a": "Initial training, technical support (based on formula), and recruitment assistance." },
-          { "q": "Can I operate in multiple countries?", "a": "Each franchise is territorial. You can acquire multiple territories." }
-        ]
-      },
-      {
-        "category": "Exclusivity",
-        "questions": [
-          { "q": "What happens if I don't sell enough licenses?", "a": "Performance goals are defined. In case of persistent difficulty, the exclusive license may become non-exclusive." }
-        ]
-      }
-    ]
   }
 }

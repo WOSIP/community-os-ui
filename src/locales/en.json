@@ -5,61 +5,46 @@
     "countries": "Countries",
     "calculator": "Calculator",
     "steps": "Steps",
-    "law": "Legal",
+    "legal": "Legal",
     "faq": "FAQ",
     "contact": "Contact",
     "become_franchisee": "Become a franchisee"
   },
   "hero": {
     "badge": "Global Trade Infrastructure",
-    "title_1": "Become the",
-    "title_highlight": "Exclusive Representative",
-    "title_2": "Helloopass OS for your country",
     "title_part1": "Become the",
     "title_exclusive": "Exclusive Representative",
     "title_part2": "Helloopass OS for your country",
-    "description": "You hold the Master License. You provide access to the communities in your territory by supplying them with regular licenses. Just as Visa provides tools to banks, you provide tools to communities.",
+    "description": "You hold the Master License. You provide access to the communities of your territory by supplying regular licenses. Just as Visa provides tools to banks, you provide tools to communities.",
     "cta_primary": "Become a franchisee",
-    "cta_secondary": "The Concept"
+    "cta_secondary": "The concept"
   },
   "stats": {
     "countries": {
       "label": "Available Countries",
-      "value": "238",
-      "desc": "National exclusivity available across 238 territories worldwide."
+      "value": "183",
+      "desc": "National exclusivity available across 183 territories worldwide."
     },
     "investment": {
       "label": "Investment",
       "value": "+100k USD",
-      "desc": "Price indexed to population (Population ÷ 200)."
+      "desc": "Price indexed on population (Population ÷ 200)."
     },
     "revenue": {
       "label": "Revenue Share",
       "value": "25%",
-      "desc": "Recurring commissions on every transaction in the territory."
+      "desc": "Recurring commissions on every transaction within the territory."
     }
   },
   "comparison": {
     "title": "Visa vs Helloopass",
     "subtitle": "The paradigm shift in financial infrastructure",
     "visa": {
-      "title": "Visa",
-      "subtitle": "Bank Infrastructure",
       "label": "Visa",
       "sublabel": "Bank Infrastructure",
-      "item_1": "Provides infrastructure to <0>Banks</0> only.",
-      "item_2": "Targets individual <0>Banked Customers</0>.",
-      "item_3": "Requires heavy and complex <0>e-money Licenses</0>.",
       "point1": "Provides infrastructure to <1>Banks</1> only.",
       "point2": "Targets individual <1>Banked Customers</1>.",
       "point3": "Requires heavy and complex <1>e-money licenses</1>."
-    },
-    "hello": {
-      "title": "Helloopass",
-      "subtitle": "Community Infrastructure",
-      "item_1": "Provides infrastructure to <0>Communities</0>.",
-      "item_2": "Targets <0>Members</0> of these ecosystems.",
-      "item_3": "<0>Voucher</0> system – No e-money license required."
     },
     "hellopass": {
       "label": "Helloopass",
@@ -70,50 +55,27 @@
     }
   },
   "closed_loops": {
-    "title": "<0>Closed Loops</0> Ecosystem",
     "title_part1": "Ecosystem of",
     "title_accent": "Closed Loops",
-    "description": "Members trade with each other using prepaid vouchers. Only authorized merchants can 'cash out', fully securing the circuit.",
-    "item_1": "Inter-connection via ACH (Automated Clearing House)",
-    "item_2": "Global Hpass Clearing House for cross-border trading",
-    "item_3": "Total real-time traceability of each unit of value",
+    "description": "Members trade among themselves using prepaid vouchers. Only authorized merchants can 'cash out', fully securing the circuit.",
     "point1": "Inter-connection via ACH (Automated Clearing House)",
     "point2": "Global Hpass Clearing House for cross-border trading",
     "point3": "Total real-time traceability of every value unit"
   },
   "bnpl": {
-    "title": "BNPL <0>100% Profits</0>",
-    "description": "Unlike traditional models, Buy Now Pay Later revenues belong <0>100% to the Trade Community</0>. Helloopass provides the tool, you reap the value.",
-    "cta": "Economic Model",
-    "trad": {
-      "title": "Traditional BNPL",
-      "desc": "Credit model tailored to community consumption needs."
-    },
-    "merchant": {
-      "title": "Merchant BNPL",
-      "desc": "Direct financing via the network of authorized merchants."
-    },
     "traditional_title": "Traditional BNPL",
     "traditional_desc": "Credit model adapted to the community's consumption needs.",
     "merchant_title": "Merchant BNPL",
     "merchant_desc": "Direct financing through the network of authorized merchants.",
     "section_title_part1": "BNPL",
-    "section_title_accent": "100% Profits"
+    "section_title_accent": "100% Profits",
+    "description": "Unlike traditional models, Buy Now Pay Later revenues belong <1>100% to the Trade Community</1>. Helloopass provides the tool, you reap the value.",
+    "cta": "Economic Model"
   },
   "reasons": {
     "title": "Why join us?",
     "subtitle": "10 strategic reasons",
     "strategic_value": "Guaranteed strategic value",
-    "reason_1": { "title": "Proven Model", "desc": "A robust and scalable infrastructure, already validated by major players on the ground." },
-    "reason_2": { "title": "Exclusive Territory", "desc": "Benefit from total exclusivity in your country to deploy Helloopass OS." },
-    "reason_3": { "title": "No Payment License", "desc": "The voucher system allows operations without e-money regulatory constraints." },
-    "reason_4": { "title": "Immense Market", "desc": "Target unions, NGOs, distributors, and the diaspora seeking to structure their exchanges." },
-    "reason_5": { "title": "Passive Income", "desc": "Generate recurring income on every transaction within your network." },
-    "reason_6": { "title": "Cross-communities", "desc": "Connect different closed loops for a limitless commercial ecosystem." },
-    "reason_7": { "title": "BNPL Models", "desc": "Integrate Buy Now Pay Later for the exclusive benefit of the Trade Community." },
-    "reason_8": { "title": "Turnkey Technology", "desc": "A complete, secure, and ready-to-use OS upon contract signature." },
-    "reason_9": { "title": "Training & Support", "desc": "End-to-end guidance from our experts to ensure your franchise success." },
-    "reason_10": { "title": "Unlimited Growth", "desc": "Infinite scalability: the more communities you integrate, the more your income grows." },
     "items": [
       { "title": "Proven Model", "desc": "A robust and scalable infrastructure, already validated by major players in the field." },
       { "title": "Exclusive Territory", "desc": "Benefit from full exclusivity in your country to deploy the Helloopass OS." },
@@ -128,18 +90,8 @@
     ]
   },
   "why": {
-    "title": "The Infrastructure <0/> of the <1>Future</1>",
-    "title_part1": "The Infrastructure",
-    "title_part2": "of the",
-    "title_accent": "Future",
-    "description": "Helloopass OS provides infrastructure to communities (unions, NGOs, distributors, diaspora) that integrate their members. Communities create their closed loops to trade with each other and connect to other closed loops.",
-    "strategic_value": "Strategic value guaranteed",
-    "model": "The Helloopass OS Model",
-    "traditional_model": "Traditional Model (VISA)",
-    "hello_infrastructure": "HELLOOPASS Infrastructure",
-    "banks": "Banks",
-    "individual_clients": "Individual Clients",
-    "active_members": "Active Members",
+    "title": "The Infrastructure <0 /> of the <1>Future</1>",
+    "description": "Helloopass OS provides infrastructure to communities (unions, NGOs, distributors, diaspora) that integrate their members. Communities create their own closed loops to trade among themselves and connect to other closed loops.",
     "model_title": "The Helloopass OS Model",
     "traditional_label": "Traditional Model (VISA)",
     "visa_node1": "VISA",
@@ -149,12 +101,8 @@
     "hellopass_node1": "Helloopass OS",
     "hellopass_node2": "Communities (Union/NGO)",
     "hellopass_node3": "Active Members",
-    "contract": {
-      "title": "Franchise Agreement (Art. 1.16)",
-      "quote": "The Helloopass points/voucher system allows community members to perform transactions within a closed loop without requiring an e-money license, as funds are non-refundable to buyers but only to authorized merchants."
-    },
     "excerpt_title": "Franchise Agreement (Art. 1.16)",
-    "excerpt_text": "« The Helloopass points/voucher system allows community members to conduct transactions within a closed loop without requiring an e-money license, as funds are not refundable to buyers but only to authorized merchants. »"
+    "excerpt_text": "\\u00ab The Helloopass points/voucher system allows community members to conduct transactions within a closed loop without requiring an e-money license, as funds are not refundable to buyers but only to authorized merchants. \\u00bb"
   },
   "economic_model": {
     "title": "Economic",
@@ -201,7 +149,7 @@
     "nb_tc_label": "Number of Trade Communities (TC)",
     "volume_label": "Average Monthly Volume per TC (USD)",
     "estimated_revenue": "Estimated Monthly Revenue",
-    "calc_info": "1.5% Commission × 25% Franchisee Share",
+    "calc_info": "1.5% Commission \\u00d7 25% Franchisee Share",
     "example_title": "Ivory Coast Example",
     "example_desc": "<1>10 TCs</1> volume <1>$1M</1> = <1>$37,500 / month</1>"
   },
@@ -280,28 +228,44 @@
     "footer_button": "Contact Legal Department",
     "toast_preparing": "Preparing ZIP pack..."
   },
-  "pricing": {
-    "title": "Investment",
-    "title_accent": "Franchise",
-    "description": "A fair and transparent pricing model, indexed directly to the population of your exclusive territory.",
-    "formula_title": "The Formula",
-    "formula_value": "Population ÷ 200",
-    "formula_point1": "Minimum entry ticket: <1>100,000 USD</1>",
-    "formula_point2": "Maximum ceiling: <1>1,000,000 USD</1>",
-    "formula_point3": "Guaranteed lifetime national exclusivity",
-    "references_title": "Global References",
-    "simulator_title": "Price Simulator",
-    "simulator_label": "Target territory population",
-    "simulator_unit": "Inhabitants",
-    "simulator_cost_label": "Exclusive Franchise Cost",
-    "simulator_info": "This one-time fee covers the exclusive operating license, access to the Helloopass OS, and initial training.",
-    "simulator_cta": "Reserve this territory",
-    "examples": [
-      { "country": "Singapore", "pop": "5.9M", "price": "100,000" },
-      { "country": "Ivory Coast", "pop": "28M", "price": "168,000" },
-      { "country": "France", "pop": "68M", "price": "340,000" },
-      { "country": "United States", "pop": "333M", "price": "1,000,000" }
-    ]
+  "admin": {
+    "title": "Backend Access",
+    "subtitle": "Administrators only",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "logging_in": "Logging in...",
+    "disclaimer": "By accessing this space, you accept the security and confidentiality terms of World Open Services BV.",
+    "success": "Login successful! Welcome superadmin.",
+    "error": "Incorrect credentials. Please try again."
+  },
+  "footer": {
+    "description": "The Operating System to Trade for communities. We provide the technological infrastructure to unlock large-scale commerce.",
+    "nav_title": "Navigation",
+    "nav_items": {
+      "why": "Why",
+      "model": "Eco Model",
+      "territories": "Territories",
+      "pricing": "Pricing"
+    },
+    "partnership_title": "Partnership",
+    "partnership_items": {
+      "process": "Process",
+      "application": "Application",
+      "models": "Models"
+    },
+    "contact_title": "Contact",
+    "admin_access": "Admin Access",
+    "rights": "\\u00a9 2025 World Open Services R&D BV \\u2013 All rights reserved.",
+    "legal": "Legal Mentions",
+    "privacy": "Privacy Policy"
+  },
+  "cta": {
+    "title_part1": "Your territory",
+    "title_part2": "is waiting for you",
+    "button": "Apply now",
+    "stats_value": "183 COUNTRIES",
+    "stats_label": "worldwide availability"
   },
   "faq": {
     "badge": "Support Center",
@@ -323,7 +287,7 @@
       {
         "category": "Financial",
         "questions": [
-          { "q": "What is the minimum franchise price?", "a": "100,000 USD. The price is calculated using the formula Population ÷ 200, with a minimum of 100k and a maximum of 1M USD." },
+          { "q": "What is the minimum franchise price?", "a": "100,000 USD. The price is calculated using the formula Population \\u00f7 200, with a minimum of 100k and a maximum of 1M USD." },
           { "q": "Are there any hidden fees?", "a": "No. The only fees are the entry price and the obligation to dedicate 10% of Growth Revenue to local marketing." },
           { "q": "What are the potential revenues?", "a": "You earn 25% on each transaction, plus 70% of activation fees and annual royalties from Trade Communities." }
         ]
@@ -350,236 +314,5 @@
         ]
       }
     ]
-  },
-  "application": {
-    "title": "<0>Application</0> File",
-    "subtitle": "Helloopass OS International Expansion",
-    "steps": {
-      "step1": "Coordinates",
-      "step2": "Business",
-      "step3": "Territory",
-      "step4": "Experience",
-      "step5": "Finance",
-      "step6": "CV",
-      "step7": "Validation"
-    },
-    "form": {
-      "personal": "Personal Coordinates",
-      "personal_desc": "Project leader information.",
-      "first_name": "First Name",
-      "last_name": "Last Name",
-      "birth": "Date of Birth",
-      "nat": "Nationality",
-      "email": "Direct Email",
-      "phone": "Phone",
-      "address": "Address",
-      "business": "Business Information",
-      "business_desc": "Details of your current structure.",
-      "company_name": "Company Name",
-      "legal": "Legal Status",
-      "reg_country": "Country of registration",
-      "year": "Year of creation",
-      "company_address": "Company Address",
-      "sector": "Field of activity",
-      "employees": "Employees",
-      "ca": "Annual Turnover",
-      "target": "Target Territory",
-      "target_desc": "The target country for exclusivity.",
-      "target_select": "SELECT YOUR TERRITORY",
-      "target_note": "By becoming a franchisee for <0>{{country}}</0>, you will be the sole provider of the OS.",
-      "choose_country": "Choose a country...",
-      "exp": "Experience & Motivations",
-      "exp_desc": "Your background and interest in Helloopass.",
-      "exp_years": "Years of experience",
-      "existing": "Existing franchise?",
-      "network": "Current network (if applicable)",
-      "motivations": "Your motivations",
-      "motivations_placeholder": "Why do you want to join the Helloopass network?",
-      "finance": "Financial Capacity",
-      "finance_desc": "Assessment of resources for deployment.",
-      "budget": "Global Budget (USD/EUR)",
-      "deposit": "Immediately available deposit",
-      "payment": "Phased payment proposal",
-      "finance_note": "Note: This information is confidential and serves only to assess the project's feasibility.",
-      "cv": "Upload CV",
-      "cv_desc": "PDF format exclusively.",
-      "cv_choose": "Click to choose a file",
-      "cv_max": "Maximum 5MB • PDF only",
-      "cv_ready": "PDF ready for submission",
-      "delete": "Delete",
-      "consent": "Final Consent",
-      "consent_desc": "Final step.",
-      "consent_legal": "By submitting this form, you acknowledge that the information provided is accurate and true. Helloopass OS commits to handling your data confidentially in accordance with its privacy policy.",
-      "consent_check": "I certify that the information provided is accurate. I accept the processing of my data for the examination of my application.",
-      "back": "Back",
-      "next": "Next",
-      "submit": "Submit File",
-      "processing": "Processing..."
-    },
-    "success": {
-      "title": "Application Received!",
-      "desc": "Congratulations {{name}}, your file for <0>{{country}}</0> has been transmitted.",
-      "id_label": "Your Candidate ID",
-      "contact_note": "A franchise expert will contact you within 3 to 5 days.",
-      "home": "Back to Home"
-    },
-    "errors": {
-      "mandatory": "Please fill in the required information (Name, First Name, Email, Phone).",
-      "business": "Please provide at least the name and sector of your business.",
-      "territory": "Please select a territory.",
-      "cv": "Please upload your CV in PDF format.",
-      "consent": "Please accept the conditions to continue.",
-      "pdf_only": "Only PDF files are accepted.",
-      "upload": "Error during submission: {{error}}"
-    }
-  },
-  "contact": {
-    "title": "Contact <0>us</0>",
-    "description": "Strategic question or need technical deployment details? Our Amsterdam offices and regional experts are here to help.",
-    "info": {
-      "email": "Direct Email",
-      "email_desc": "Response within 24h",
-      "hq": "Headquarters",
-      "hq_desc": "World Open Services R&D BV <0/> Amsterdam, Netherlands",
-      "support": "Support",
-      "support_desc": "Monday - Friday <0/> 09:00 - 18:00 (GMT+1)"
-    },
-    "emergency": {
-      "title": "Emergency Channel",
-      "desc": "Institutional investor or government representative?",
-      "cta": "Priority Access"
-    },
-    "form": {
-      "name": "Full name",
-      "email": "Work email",
-      "phone": "Phone",
-      "territory": "Territory of interest",
-      "territory_placeholder": "SELECT A COUNTRY",
-      "message": "Your message",
-      "message_placeholder": "Briefly explain your project...",
-      "submit": "Send message",
-      "success": "Message sent successfully! A franchise expert will contact you within 24h."
-    }
-  },
-  "admin": {
-    "title": "Backend Access",
-    "subtitle": "Administrators only",
-    "username": "Username",
-    "password": "Password",
-    "login": "Login",
-    "logging_in": "Logging in...",
-    "legal": "By accessing this space, you accept the security and confidentiality terms of World Open Services BV.",
-    "disclaimer": "By accessing this space, you accept the security and confidentiality terms of World Open Services BV.",
-    "success": "Login successful! Welcome superadmin.",
-    "error": "Incorrect credentials. Please try again.",
-    "unauthorized": "Unauthorized access. Please login."
-  },
-  "footer": {
-    "desc": "The Operating System to Trade for communities. We provide the technological infrastructure to unlock large-scale commerce.",
-    "description": "The Operating System to Trade for communities. We provide the technological infrastructure to unlock large-scale commerce.",
-    "nav": "Navigation",
-    "nav_title": "Navigation",
-    "nav_items": {
-      "why": "Why",
-      "model": "Eco Model",
-      "territories": "Territories",
-      "pricing": "Pricing"
-    },
-    "partnership": "Partnership",
-    "partnership_title": "Partnership",
-    "partnership_items": {
-      "process": "Process",
-      "application": "Application",
-      "models": "Models"
-    },
-    "contact": "Contact",
-    "contact_title": "Contact",
-    "admin_access": "Admin Access",
-    "rights": "© 2025 World Open Services R&D BV – All rights reserved.",
-    "legal": "Legal Mentions",
-    "privacy": "Privacy Policy"
-  },
-  "cta_final": {
-    "title": "Your territory <0/> is waiting for you",
-    "button": "Apply Now",
-    "countries": "238 COUNTRIES",
-    "availability": "global availability"
-  },
-  "cta": {
-    "title_part1": "Your territory",
-    "title_part2": "is waiting for you",
-    "button": "Apply now",
-    "stats_value": "238 COUNTRIES",
-    "stats_label": "worldwide availability"
-  },
-  "dashboard": {
-    "title": "Dashboard",
-    "logout": "Logout",
-    "role": {
-      "super": "Super Admin Space",
-      "admin": "Admin Space"
-    },
-    "stats": {
-      "applications": "Applications",
-      "approved": "Approved",
-      "pending": "Pending",
-      "agents": "Agents"
-    },
-    "tabs": {
-      "applications": "Applications",
-      "agents": "Agent Management"
-    },
-    "search": {
-      "placeholder": "Search...",
-      "button": "Search",
-      "all": "All",
-      "id": "System ID",
-      "email": "Email",
-      "business": "Company",
-      "name": "Name"
-    },
-    "table": {
-      "id": "Candidate ID",
-      "candidate": "Candidate",
-      "territory": "Territory",
-      "date": "Date",
-      "status": "Status",
-      "actions": "Actions",
-      "loading": "Loading...",
-      "empty": "No applications found.",
-      "list_title": "Application List",
-      "list_desc": "Manage and update franchise records.",
-      "export": "Export CSV",
-      "details": "View Details",
-      "change_status": "Change Status"
-    },
-    "status": {
-      "pending": "Pending",
-      "accepted": "Accepted",
-      "active": "Activated",
-      "exclusive": "Allocated Exclusive",
-      "non_exclusive": "Allocated Non-Exclusive",
-      "rejected": "Rejected",
-      "disabled": "Disabled"
-    },
-    "agents": {
-      "title": "Access Management",
-      "desc": "Create and manage administrator accounts.",
-      "new": "New Agent",
-      "id": "Agent ID",
-      "user": "User",
-      "role": "Role",
-      "status": "Status",
-      "active": "Active",
-      "disabled": "Disabled",
-      "edit": "Edit",
-      "read_only": "Set Read-only",
-      "admin": "Set Admin",
-      "super_admin": "Set Super Admin",
-      "deactivate": "Deactivate",
-      "reactivate": "Reactivate",
-      "success_role": "Role updated",
-      "success_status": "Agent status updated"
-    }
   }
 }
