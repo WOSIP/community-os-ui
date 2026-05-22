@@ -1,34 +1,19 @@
-# Implementation Plan - Multi-language Support (i18n) & Content Updates
+# Restoration of Application Form and Localization Fixes
 
-This plan outlines the steps to add English language support and update content on the Helloopass web portal.
+The goal is to fully restore the high-fidelity application form on the "demand entry" page (`Application.tsx`) and ensure all languages are correctly adjusted and rendered.
 
-## 1. Environment Setup (COMPLETED)
-- Install required packages: `i18next`, `react-i18next`, `i18next-browser-languagedetector`.
+## Phase 1: Application Form Implementation
+1.  Update `src/pages/Application.tsx` to include a multi-step form.
+2.  Use `react-hook-form` and `zod` for form management and validation.
+3.  Integrate `shadcn/ui` components (Input, Select, Button, Label, Progress, etc.).
+4.  Map all form labels, placeholders, and step titles to the `application` keys in `en.json` and `fr.json`.
+5.  Implement step navigation (Next/Back) with progress indication.
 
-## 2. Configuration (COMPLETED)
-- Create locale files: `src/locales/fr/translation.json` and `src/locales/en/translation.json`.
-- Initialize i18next in `src/lib/i18n.ts`.
-- Import `src/lib/i18n.ts` in `src/main.tsx`.
+## Phase 2: Localization Consistency
+1.  Verify all translation keys in `src/locales/en.json` and `src/locales/fr.json` for the `application` section.
+2.  Ensure the `<highlight>` tag is correctly used for the title.
+3.  Add any missing translations for form validation messages or success states if necessary.
 
-## 3. Content Updates
-### Country Count Adjustment
-- Update `src/locales/en/translation.json` and `src/locales/fr/translation.json`:
-  - Change "238" to "183" in `stats.countries.value`.
-  - Change "238" to "183" in `stats.countries.desc`.
-  - Change "238" to "183" in `cta.stats_value`.
-
-### Localization Fixes (Concept Page)
-- Update `src/pages/Why.tsx`:
-  - Ensure the hero title uses proper translation keys and safe React components.
-  - Fix any potential "Minified React error #137" related to `<Trans>` component usage with void elements like `<br />`.
-  - Ensure all sections use `t()` or `<Trans>` correctly.
-
-## 4. UI Implementation
-### Standardize Localization
-- Ensure consistent use of `useTranslation` across all pages.
-- Verify that language switching in `Navbar.tsx` updates all components immediately.
-
-## 5. Verification
-- Run `validate_build` to ensure no TypeScript or runtime errors.
-- Test language switching functionality.
-- Verify the country count is updated on the landing page in both languages.
+## Phase 3: Validation
+1.  Run `validate_build` to ensure zero errors.
+2.  Verify the form is fully functional and localized in both English and French.
