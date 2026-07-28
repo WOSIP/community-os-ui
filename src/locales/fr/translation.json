@@ -292,6 +292,29 @@
       { "country": "États-Unis", "pop": "333M", "price": "1 000 000" }
     ]
   },
+  "contact": {
+    "title": "Contactez-",
+    "title_accent": "Nous",
+    "description": "Prêt à devenir représentant exclusif Helloopass sur votre territoire ? Remplissez le formulaire ci-dessous et notre équipe vous répondra sous 48 heures.",
+    "email_label": "E-mail",
+    "email_response": "Réponse sous 48h",
+    "hq_label": "Siège Social",
+    "hq_address": "World Open Services R&D BV <br/> Amsterdam, Pays-Bas",
+    "support_label": "Support",
+    "support_hours": "Lundi - Vendredi <br/> 09:00 - 18:00 (GMT+1)",
+    "emergency_title": "Urgence Partenariat",
+    "emergency_desc": "Vous souhaitez accélérer le processus ? Contactez directement notre comité d'expansion.",
+    "emergency_cta": "Demande Prioritaire",
+    "form_name": "Nom Complet",
+    "form_email": "Adresse e-mail",
+    "form_phone": "Téléphone",
+    "form_territory": "Territoire Ciblé",
+    "form_territory_placeholder": "Sélectionnez votre pays",
+    "form_message": "Votre Message",
+    "form_message_placeholder": "Parlez-nous de votre projet, de votre expérience et du territoire visé...",
+    "form_submit": "Envoyer le Message",
+    "toast_success": "Message envoyé avec succès ! Notre équipe vous recontactera sous 48 heures."
+  },
   "faq": {
     "badge": "Centre d'assistance",
     "title": "Questions",
