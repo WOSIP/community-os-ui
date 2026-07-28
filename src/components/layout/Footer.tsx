@@ -1,66 +1,109 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Mail, MapPin, Linkedin, Twitter, ArrowUpRight, Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();
 
+  const scrollToAdmin = (e: React.MouseEvent) => {
+    const adminSection = document.getElementById("admin-login");
+    if (adminSection && window.location.pathname === "/") {
+      e.preventDefault();
+      adminSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <footer className="bg-zinc-950 border-t border-white/5 py-20">
+    <footer className="bg-black border-t border-white/5 pt-16 pb-10 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="inline-block mb-6">
-              <span className="text-2xl font-black tracking-tighter text-white">
-                HELLOOPASS<span className="text-orange-500">.</span>
-              </span>
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-12">
+          <div className="col-span-1 lg:col-span-2 space-y-5">
+            <Link to="/" className="text-xl font-bold text-white group flex items-center gap-1.5">
+              <span className="text-orange-500">H</span>ELLOOPASS
             </Link>
-            <p className="text-gray-500 text-sm leading-relaxed font-medium">
-              {t("footer.desc")}
+            <p className="text-gray-500 text-sm leading-relaxed max-w-sm font-medium">
+              {t("footer.description")}
             </p>
+            <div className="flex gap-3">
+               <a href="#" className="w-9 h-9 bg-zinc-900 rounded-lg flex items-center justify-center text-gray-400 hover:bg-orange-500 hover:text-white transition-all shadow-lg">
+                 <Linkedin size={16} />
+               </a>
+               <a href="#" className="w-9 h-9 bg-zinc-900 rounded-lg flex items-center justify-center text-gray-400 hover:bg-orange-500 hover:text-white transition-all shadow-lg">
+                 <Twitter size={16} />
+               </a>
+            </div>
           </div>
-
+          
           <div>
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-6">
-              {t("footer.nav_title")}
-            </h4>
-            <ul className="space-y-4">
-              <li><Link to="/pourquoi" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.nav_items.why")}</Link></li>
-              <li><Link to="/modele-economique" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.nav_items.model")}</Link></li>
-              <li><Link to="/territoires" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.nav_items.territories")}</Link></li>
-              <li><Link to="/prix" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.nav_items.pricing")}</Link></li>
+            <h3 className="text-orange-500 font-bold uppercase tracking-[0.15em] text-[9px] mb-5">{t("footer.nav_title")}</h3>
+            <ul className="space-y-2.5">
+              {[
+                { key: "why", path: "/pourquoi", label: t("footer.nav_items.why") },
+                { key: "model", path: "/modele-economique", label: t("footer.nav_items.model") },
+                { key: "territories", path: "/territoires", label: t("footer.nav_items.territories") },
+                { key: "pricing", path: "/prix", label: t("footer.nav_items.pricing") }
+              ].map(item => (
+                <li key={item.key}>
+                  <Link to={item.path} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group text-[11px] font-bold">
+                    {item.label} <ArrowUpRight size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-6">
-              {t("footer.partnership_title")}
-            </h4>
-            <ul className="space-y-4">
-              <li><Link to="/processus" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.partnership_items.process")}</Link></li>
-              <li><Link to="/candidature" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.partnership_items.application")}</Link></li>
-              <li><Link to="/modeles-contrat" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.partnership_items.models")}</Link></li>
+            <h3 className="text-orange-500 font-bold uppercase tracking-[0.15em] text-[9px] mb-5">{t("footer.partnership_title")}</h3>
+            <ul className="space-y-2.5">
+              {[
+                { key: "process", path: "/processus", label: t("footer.partnership_items.process") },
+                { key: "application", path: "/candidature", label: t("footer.partnership_items.application") },
+                { key: "models", path: "/modeles-contrat", label: t("footer.partnership_items.models") }
+              ].map(item => (
+                <li key={item.key}>
+                  <Link to={item.path} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group text-[11px] font-bold">
+                    {item.label} <ArrowUpRight size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-6">
-              {t("footer.contact_title")}
-            </h4>
+            <h3 className="text-orange-500 font-bold uppercase tracking-[0.15em] text-[9px] mb-5">{t("footer.contact_title")}</h3>
             <ul className="space-y-4">
-              <li><Link to="/contact" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("nav.contact")}</Link></li>
-              <li><Link to="/dashboard" className="text-gray-500 hover:text-orange-500 text-sm transition-colors">{t("footer.admin_access")}</Link></li>
+              <li className="flex gap-3 text-gray-400 group">
+                <Mail className="text-orange-500 shrink-0" size={14} />
+                <span className="text-[11px] font-bold break-all">franchise@helloopass.net</span>
+              </li>
+              <li className="flex gap-3 text-gray-400">
+                <MapPin className="text-orange-500 shrink-0" size={14} />
+                <span className="text-[11px] font-bold leading-relaxed">
+                  World Open Services R&D BV <br />
+                  Amsterdam, NL
+                </span>
+              </li>
+              <li className="pt-2">
+                <Link 
+                  to="/#admin-login" 
+                  onClick={scrollToAdmin}
+                  className="flex items-center gap-2 text-zinc-600 hover:text-orange-500 transition-colors text-[9px] font-bold uppercase tracking-widest group"
+                >
+                  <Lock size={12} className="group-hover:animate-pulse" /> {t("footer.admin_access")}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
-
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-gray-600 text-xs font-medium">
+        
+        <div className="pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-600 text-[9px] font-bold uppercase tracking-widest">
             {t("footer.rights")}
           </p>
-          <div className="flex gap-8">
-            <Link to="#" className="text-gray-600 hover:text-white text-xs font-medium uppercase tracking-widest transition-colors">{t("footer.legal")}</Link>
-            <Link to="#" className="text-gray-600 hover:text-white text-xs font-medium uppercase tracking-widest transition-colors">{t("footer.privacy")}</Link>
+          <div className="flex gap-5 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-600">
+            <a href="#" className="hover:text-orange-500 transition-colors">{t("footer.legal")}</a>
+            <a href="#" className="hover:text-orange-500 transition-colors">{t("footer.privacy")}</a>
           </div>
         </div>
       </div>

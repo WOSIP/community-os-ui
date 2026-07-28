@@ -1,34 +1,162 @@
-import React from "react";
+import React, { useState } from "react";
+import { Globe, AlertTriangle, CheckCircle, Search, Mail } from "lucide-react";
+import { EXCLUDED_COUNTRIES, COUNTRIES, IMAGES } from "../lib/constants";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
-
-const Br = () => <br />;
 
 const Territories = () => {
   const { t } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [alertEmail, setAlertEmail] = useState("");
+  const count = EXCLUDED_COUNTRIES.length;
+
+  const filteredCountries = COUNTRIES.filter(c => 
+    c.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleAlert = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success(t("territories.alert_success"));
+    setAlertEmail("");
+  };
+
   return (
-    <div className="py-32 px-4 max-w-7xl mx-auto min-h-screen">
-      <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-12 pt-20">
-        {t("territories.title")} <span className="text-orange-500">{t("territories.title_accent")}</span>
-      </h1>
-      <p className="text-2xl text-gray-400 max-w-3xl leading-relaxed font-medium mb-20">
-        <Trans 
-          i18nKey="territories.description"
-          components={{
-            highlight: <span className="text-white" />
-          }}
-        />
-      </p>
-      
-      <div className="p-12 bg-zinc-900 rounded-[3rem] border border-white/5 shadow-2xl">
-         <h3 className="text-xl font-bold mb-8 uppercase tracking-widest text-orange-500 flex items-center gap-4">
-           <Trans 
-             i18nKey="territories.exclusions_title"
-             components={{ br: <Br /> }}
-           />
-         </h3>
-         <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
-           {t("territories.exclusions_desc")}
-         </p>
+    <div className="bg-black text-white py-16 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-12">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight">{t("territories.title")} <span className="text-orange-500">{t("territories.title_accent")}</span></h1>
+          <p className="text-base text-gray-400 max-w-3xl leading-relaxed font-medium">
+            <Trans i18nKey="territories.description" values={{ count }}>
+              Bonne nouvelle : <span className="text-white font-bold">Tous les pays du globe sont autoris\u00e9s.</span> La franchise Helloopass est accessible partout, \u00e0 l'exception de {count} territoires d\u00e9j\u00e0 strat\u00e9giquement attribu\u00e9s.
+            </Trans>
+          </p>
+        </div>
+
+        {/* Global Map Visual */}
+        <div className="relative mb-20 rounded-[2.5rem] overflow-hidden border border-white/10 h-[300px] md:h-[450px] group shadow-xl">
+          <img 
+            src={IMAGES.map} 
+            alt="Global Map" 
+            className="w-full h-full object-cover opacity-70 transition-transform duration-[20s] group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
+          
+          <div className="absolute top-6 right-6 bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse shadow-lg shadow-orange-500/50"></div>
+              <span className="font-bold text-base tracking-tight uppercase">{COUNTRIES.length - EXCLUDED_COUNTRIES.length} {t("territories.countries_available")}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
+              <span className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[7px]">{EXCLUDED_COUNTRIES.length} {t("territories.assigned_exclusions")}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 mb-20">
+          {/* Exclusions */}
+          <div className="bg-zinc-950 p-8 md:p-10 rounded-[2rem] border border-white/5 relative overflow-hidden shadow-xl">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500 shadow-lg">
+                <AlertTriangle size={20} />
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">
+                <Trans i18nKey="territories.exclusions_title">
+                  Exclusivit\u00e9s D\u00e9j\u00e0 <br /> Attribu\u00e9es
+                </Trans>
+              </h2>
+            </div>
+            
+            <p className="text-gray-400 mb-6 text-sm leading-relaxed font-medium">
+              {t("territories.exclusions_desc")}
+            </p>
+            
+            <div className="grid grid-cols-2 gap-3 mb-8">
+              {EXCLUDED_COUNTRIES.map(country => (
+                <div key={country} className="p-3.5 bg-zinc-900/40 rounded-xl border border-white/5 flex items-center gap-2.5 group hover:bg-zinc-900 transition-all">
+                  <div className="w-1 h-1 rounded-full bg-zinc-800 group-hover:bg-red-500 transition-colors shadow-lg shadow-red-500/20"></div>
+                  <span className="text-gray-500 font-bold text-sm uppercase tracking-tight group-hover:text-white transition-colors">{country}</span>
+                </div>
+              ))}
+            </div>
+            
+            <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5">
+              <h3 className="font-bold text-base mb-5 flex items-center gap-2.5 uppercase tracking-tight">
+                <Mail className="text-orange-500" size={16} /> {t("territories.waiting_list_title")}
+              </h3>
+              <form onSubmit={handleAlert} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <Input 
+                    type="email" 
+                    placeholder={t("territories.waiting_list_placeholder")} 
+                    value={alertEmail}
+                    onChange={(e) => setAlertEmail(e.target.value)}
+                    className="bg-black border-white/10 h-12 text-base rounded-xl flex-grow px-5"
+                    required
+                  />
+                  <button type="submit" className="bg-orange-500 hover:bg-orange-600 h-12 px-6 font-bold text-sm rounded-xl transition-all text-white">
+                    {t("territories.waiting_list_button")}
+                  </button>
+                </div>
+                <p className="text-[7px] text-gray-600 font-bold uppercase tracking-widest text-center">{t("territories.waiting_list_info")}</p>
+              </form>
+            </div>
+          </div>
+
+          {/* Search/List */}
+          <div className="bg-zinc-950 p-8 md:p-10 rounded-[2rem] border border-white/5 flex flex-col h-[600px] relative overflow-hidden shadow-xl">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 shadow-lg">
+                <CheckCircle size={20} />
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">
+                <Trans i18nKey="territories.check_availability_title">
+                  V\u00e9rifier la <br /> Disponibilit\u00e9
+                </Trans>
+              </h2>
+            </div>
+
+            <div className="relative mb-6">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={18} />
+              <Input 
+                placeholder={t("territories.search_placeholder")} 
+                className="pl-11 bg-black border-white/10 h-14 text-base font-bold rounded-xl px-6 focus:border-orange-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <div className="flex-grow overflow-y-auto pr-3 space-y-2.5 custom-scrollbar">
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map(country => {
+                  const isExcluded = EXCLUDED_COUNTRIES.includes(country);
+                  return (
+                    <div key={country} className="p-3.5 bg-black/40 hover:bg-white/5 rounded-xl flex justify-between items-center transition-all border border-transparent hover:border-white/10 group">
+                      <span className="text-base font-bold uppercase tracking-tight group-hover:text-orange-500 transition-colors">{country}</span>
+                      {isExcluded ? (
+                        <span className="text-[7px] font-bold text-red-500 border border-red-500/30 bg-red-500/10 px-3 py-1.5 rounded-full uppercase tracking-widest">{t("territories.status_occupied")}</span>
+                      ) : (
+                        <Link to={`/candidature?country=${country}`}>
+                          <Button size="sm" variant="outline" className="text-[7px] font-bold text-orange-500 border-orange-500/30 hover:bg-orange-500 hover:text-white rounded-full uppercase tracking-widest px-3 h-7">
+                            {t("territories.status_available")}
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center py-16 text-gray-700">
+                  <Globe className="mx-auto mb-3 opacity-20" size={48} />
+                  <p className="text-sm font-bold uppercase tracking-widest opacity-30">{t("territories.no_countries")}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

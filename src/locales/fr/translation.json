@@ -5,16 +5,13 @@
     "countries": "Pays",
     "calculator": "Calculateur",
     "steps": "Étapes",
-    "law": "Droit",
+    "legal": "Droit",
     "faq": "FAQ",
     "contact": "Contact",
     "become_franchisee": "Devenir franchisé"
   },
   "hero": {
     "badge": "Global Trade Infrastructure",
-    "title_1": "Devenez le",
-    "title_highlight": "Représentant Exclusif",
-    "title_2": "Helloopass OS pour votre pays",
     "title_part1": "Devenez le",
     "title_exclusive": "Représentant Exclusif",
     "title_part2": "Helloopass OS pour votre pays",
@@ -25,8 +22,8 @@
   "stats": {
     "countries": {
       "label": "Pays disponibles",
-      "value": "183",
-      "desc": "Une exclusivité nationale disponible sur 183 territoires du globe."
+      "value": "238",
+      "desc": "Une exclusivité nationale disponible sur 238 territoires du globe."
     },
     "investment": {
       "label": "Investissement",
@@ -43,77 +40,42 @@
     "title": "Visa vs Helloopass",
     "subtitle": "Le changement de paradigme de l'infrastructure financière",
     "visa": {
-      "title": "Visa",
-      "subtitle": "Infrastructure Banques",
       "label": "Visa",
       "sublabel": "Infrastructure Banques",
-      "item_1": "Fournit l'infrastructure aux <highlight>Banques</highlight> uniquement.",
-      "item_2": "Cible les <highlight>Clients bancarisés</highlight> individuels.",
-      "item_3": "Nécessite des <highlight>Licences e-money</highlight> lourdes et complexes.",
-      "point1": "Fournit l'infrastructure aux <highlight>Banques</highlight> uniquement.",
-      "point2": "Cible les <highlight>Clients bancarisés</highlight> individuels.",
-      "point3": "Nécessite des <highlight>Licences e-money</highlight> lourdes et complexes."
-    },
-    "hello": {
-      "title": "Helloopass",
-      "subtitle": "Infrastructure Communautés",
-      "item_1": "Fournit l'infrastructure aux <highlight>Communautés</highlight>.",
-      "item_2": "Cible les <highlight>Membres</highlight> de ces écosystèmes.",
-      "item_3": "Système de <highlight>Vouchers</highlight> – Aucune licence e-money."
+      "point1": "Fournit l'infrastructure aux <1>Banques</1> uniquement.",
+      "point2": "Cible les <1>Clients bancarisés</1> individuels.",
+      "point3": "Nécessite des <1>Licences e-money</1> lourdes et complexes."
     },
     "hellopass": {
       "label": "Helloopass",
       "sublabel": "Infrastructure Communautés",
-      "point1": "Fournit l'infrastructure aux <highlight>Communautés</highlight>.",
-      "point2": "Cible les <highlight>Membres</highlight> de ces écosystèmes.",
-      "point3": "Système de <highlight>Vouchers</highlight> – Aucune licence e-money."
+      "point1": "Fournit l'infrastructure aux <1>Communautés</1>.",
+      "point2": "Cible les <1>Membres</1> de ces écosystèmes.",
+      "point3": "Système de <1>Vouchers</1> – Aucune licence e-money."
     }
   },
   "closed_loops": {
-    "title": "Écosystème de <highlight>Closed Loops</highlight>",
     "title_part1": "Écosystème de",
     "title_accent": "Closed Loops",
     "description": "Les members tradent entre eux avec des bons d'achat (vouchers) prépayés. Seuls les commerçants agréés peuvent 'cash out', sécurisant totalement le circuit.",
-    "item_1": "Inter-connexion via ACH (Automated Clearing House)",
-    "item_2": "Global Hpass Clearing House pour le trading cross-border",
-    "item_3": "Traçabilité totale en temps réel de chaque unité de valeur",
     "point1": "Inter-connexion via ACH (Automated Clearing House)",
     "point2": "Global Hpass Clearing House for le trading cross-border",
     "point3": "Traçabilité totale en temps réel de chaque unité de valeur"
   },
   "bnpl": {
-    "title": "BNPL <highlight>100% Profits</highlight>",
-    "description": "Contrairement aux modèles classiques, les revenus Buy Now Pay Later appartiennent à <highlight>100% à la Trade Community</highlight>. Helloopass fournit l'outil, vous récoltez la valeur.",
-    "cta": "Modèle Économique",
-    "trad": {
-      "title": "BNPL Traditionnel",
-      "desc": "Modèle de crédit adapté aux besoins de consommation de la communauté."
-    },
-    "merchant": {
-      "title": "BNPL Marchand",
-      "desc": "Financement direct via le réseau de commerçants agréés."
-    },
     "traditional_title": "BNPL Traditionnel",
     "traditional_desc": "Modèle de crédit adapté aux besoins de consommation de la communauté.",
     "merchant_title": "BNPL Marchand",
     "merchant_desc": "Financement direct via le réseau de commerçants agréés.",
     "section_title_part1": "BNPL",
-    "section_title_accent": "100% Profits"
+    "section_title_accent": "100% Profits",
+    "description": "Contrairement aux modèles classiques, les revenus Buy Now Pay Later appartiennent à <1>100% à la Trade Community</1>. Helloopass fournit l'outil, vous récoltez la valeur.",
+    "cta": "Modèle Économique"
   },
   "reasons": {
     "title": "Pourquoi nous rejoindre ?",
     "subtitle": "10 raisons stratégiques",
     "strategic_value": "Valeur stratégique garantie",
-    "reason_1": { "title": "Modèle éprouvé", "desc": "Une infrastructure robuste et scalable, déjà validée par des acteurs majeurs sur le terrain." },
-    "reason_2": { "title": "Territoire exclusif", "desc": "Bénéficiez d'une exclusivité totale sur votre pays pour déployer l'OS Helloopass." },
-    "reason_3": { "title": "Pas de licence paiement", "desc": "Le système de vouchers (bons d'achat) permet d'opérer sans les contraintes réglementaires e-money." },
-    "reason_4": { "title": "Marché immense", "desc": "Ciblez les unions, ONG, distributeurs et la diaspora qui cherchent à structurer leurs échanges." },
-    "reason_5": { "title": "Revenus passifs", "desc": "Générez des revenus récurrents sur chaque transaction effectuée au sein de votre réseau." },
-    "reason_6": { "title": "Cross-communities", "desc": "Connectez différentes boucles fermées entre elles pour un écosystème commercial sans limites." },
-    "reason_7": { "title": "Modèles BNPL", "desc": "Intégrez le Buy Now Pay Later au profit exclusif de la Trade Community." },
-    "reason_8": { "title": "Technologie clé en main", "desc": "Un OS complet, sécurisé et prêt à l'emploi dès la signature de votre contrat." },
-    "reason_9": { "title": "Formation & Support", "desc": "Un accompagnement de A à Z par nos experts pour garantir le succès de votre franchise." },
-    "reason_10": { "title": "Croissance illimitée", "desc": "Une scalabilité infinie : plus vous intégrez de communautés, plus vos revenus croissent." },
     "items": [
       { "title": "Modèle éprouvé", "desc": "Une infrastructure robuste et scalable, déjà validée par des acteurs majeurs sur le terrain." },
       { "title": "Territoire exclusif", "desc": "Bénéficiez d'une exclusivité totale sur votre pays pour déployer l'OS Helloopass." },
@@ -128,18 +90,10 @@
     ]
   },
   "why": {
-    "title": "L'Infrastructure <br/> du <highlight>Futur</highlight>",
     "title_part1": "L'Infrastructure",
     "title_part2": "du",
     "title_accent": "Futur",
     "description": "Helloopass OS fournit l'infrastructure aux communautés (unions, ONG, distributeurs, diaspora) qui intègrent leurs membres. Les communautés créent leurs closed loops pour trader entre elles et se connecter à d'autres closed loops.",
-    "strategic_value": "Valeur stratégique garantie",
-    "model": "Le Modèle Helloopass OS",
-    "traditional_model": "Modèle Traditionnel (VISA)",
-    "hello_infrastructure": "Infrastructure HELLOOPASS",
-    "banks": "Banques",
-    "individual_clients": "Clients Individualisés",
-    "active_members": "Membres Actifs",
     "model_title": "Le Modèle Helloopass OS",
     "traditional_label": "Modèle Traditionnel (VISA)",
     "visa_node1": "VISA",
@@ -149,10 +103,6 @@
     "hellopass_node1": "Helloopass OS",
     "hellopass_node2": "Communautés (Union/ONG)",
     "hellopass_node3": "Membres Actifs",
-    "contract": {
-      "title": "Accord de Franchise (Art. 1.16)",
-      "quote": "Le système de points/vouchers Helloopass permet aux membres des communautés d'effectuer des transactions au sein d'un circuit fermé sans nécessiter de licence e-money, les fonds n'étant pas remboursables aux acheteurs mais uniquement aux commerçants agréés."
-    },
     "excerpt_title": "Accord de Franchise (Art. 1.16)",
     "excerpt_text": "« Le système de points/vouchers Helloopass permet aux membres des communautés d'effectuer des transactions au sein d'un circuit fermé sans nécessiter de licence e-money, les fonds n'étant pas remboursables aux acheteurs mais uniquement aux commerçants agréés. »"
   },
@@ -203,21 +153,21 @@
     "estimated_revenue": "Revenu mensuel estimé",
     "calc_info": "Commission 1.5% × Part Franchisé 25%",
     "example_title": "Exemple Côte d'Ivoire",
-    "example_desc": "<highlight>10 TC</highlight> volume <highlight>$1M</highlight> = <highlight>$37,500 / mois</highlight>"
+    "example_desc": "<1>10 kit</1> volume <1>$1M</1> = <1>$37,500 / mois</1>"
   },
   "territories": {
     "title": "Territoires",
     "title_accent": "Disponibles",
-    "description": "Bonne nouvelle : <highlight>Tous les pays du globe sont autorisés.</highlight> La franchise Helloopass est accessible partout, à l'exception de {{count}} territoires déjà stratégiquement attribués.",
+    "description": "Bonne nouvelle : <1>Tous les pays du globe sont autorisés.</1> La franchise Helloopass est accessible partout, à l'exception de {{count}} territoires déjà stratégiquement attribués.",
     "countries_available": "PAYS DISPONIBLES",
     "assigned_exclusions": "Attribués (Exclusions)",
-    "exclusions_title": "Exclusivités Déjà <br/> Attribuées",
+    "exclusions_title": "Exclusivités Déjà <1/> Attribuées",
     "exclusions_desc": "Ces territoires ont déjà trouvé leurs partenaires exclusifs. Pour ces pays, nous ne prenons plus de nouvelles candidatures de franchise.",
     "waiting_list_title": "Liste d'attente",
     "waiting_list_placeholder": "votre@email.com",
     "waiting_list_button": "M'alerter",
     "waiting_list_info": "Soyez informé si un territoire se libère.",
-    "check_availability_title": "Vérifier la <br/> Disponibilité",
+    "check_availability_title": "Vérifier la <1/> Disponibilité",
     "search_placeholder": "Rechercher votre pays...",
     "status_occupied": "Occupé",
     "status_available": "Disponible",
@@ -253,7 +203,7 @@
   "contract_models": {
     "title": "Cadre",
     "title_accent": "Contractuel",
-    "description": "Consultez les modèles de documents qui régiront votre partenariat exclusif with Helloopass OS.",
+    "description": "Consultez les modèles de documents qui régiront votre partenariat exclusif avec Helloopass OS.",
     "disclaimer_title": "Avertissement Documentaire",
     "disclaimer_text": "Les documents présentés sont des versions standard. Un contrat final sera édité pour intégrer les spécificités réglementaires de votre territoire national.",
     "master_title": "Accord de Franchise",
@@ -289,8 +239,7 @@
     "logging_in": "Connexion...",
     "disclaimer": "En accédant à cet espace, vous acceptez les conditions de sécurité et de confidentialité de World Open Services BV.",
     "success": "Connexion réussie ! Bienvenue superadmin.",
-    "error": "Identifiants incorrects. Veuillez réessayer.",
-    "unauthorized": "Accès non autorisé. Veuillez vous connecter."
+    "error": "Identifiants incorrects. Veuillez réessayer."
   },
   "footer": {
     "description": "L'Operating System to Trade des communautés. Nous fournissons l'infrastructure technologique pour débloquer le commerce à grande échelle.",
@@ -317,8 +266,31 @@
     "title_part1": "Votre territoire",
     "title_part2": "vous attend",
     "button": "Postuler maintenant",
-    "stats_value": "183 PAYS",
+    "stats_value": "238 PAYS",
     "stats_label": "disponibilité mondiale"
+  },
+  "pricing": {
+    "title": "Investissement",
+    "title_accent": "Franchise",
+    "description": "Un modèle de tarification équitable et transparent, indexé directement sur la population de votre territoire exclusif.",
+    "formula_title": "La Formule",
+    "formula_value": "Population ÷ 200",
+    "formula_point1": "Ticket d'entrée minimum : <1>100 000 USD</1>",
+    "formula_point2": "Plafond maximum : <1>1 000 000 USD</1>",
+    "formula_point3": "Exclusivité nationale garantie à vie",
+    "references_title": "Références Mondiales",
+    "simulator_title": "Simulateur de Prix",
+    "simulator_label": "Population du territoire visé",
+    "simulator_unit": "Habitants",
+    "simulator_cost_label": "Coût de la Franchise Exclusive",
+    "simulator_info": "Ce montant unique couvre la licence d'exploitation exclusive, l'accès à l'OS Helloopass et la formation initiale.",
+    "simulator_cta": "Réserver ce territoire",
+    "examples": [
+      { "country": "Singapour", "pop": "5,9M", "price": "100 000" },
+      { "country": "Côte d'Ivoire", "pop": "28M", "price": "168 000" },
+      { "country": "France", "pop": "68M", "price": "340 000" },
+      { "country": "États-Unis", "pop": "333M", "price": "1 000 000" }
+    ]
   },
   "faq": {
     "badge": "Centre d'assistance",
@@ -340,9 +312,9 @@
       {
         "category": "Financières",
         "questions": [
-          { "q": "Quel est le prix minimum d'une franchise ?", "a": "100 000 USD. Le prix est calculé selon la formule Population ÷ 200, with a minimum à 100k and a maximum à 1M USD." },
+          { "q": "Quel est le prix minimum d'une franchise ?", "a": "100 000 USD. Le prix est calculé selon la formule Population ÷ 200, avec un minimum à 100k et un maximum à 1M USD." },
           { "q": "Y a-t-il des frais cachés ?", "a": "Non. Les seuls frais sont le prix d'entrée et l'obligation de consacrer 10% du Revenu de Croissance au marketing local." },
-          { "q": "Quels sont les revenus potentiels ?", "a": "Vous gagnez 25% sur chaque transaction, plus 70% des frais d'activation and redevances annuelles des Trade Communities." }
+          { "q": "Quels sont les revenus potentiels ?", "a": "Vous gagnez 25% sur chaque transaction, plus 70% des frais d'activation et redevances annuelles des Trade Communities." }
         ]
       },
       {
@@ -363,118 +335,9 @@
       {
         "category": "Exclusivité",
         "questions": [
-          { "q": "Que se passe-t-1 si je ne vends pas assez de licences ?", "a": "Des objectifs de performance sont définis. En cas de difficulté persistante, la licence exclusive peut devenir non exclusive." }
+          { "q": "Que se passe-t-il si je ne vends pas assez de licences ?", "a": "Des objectifs de performance sont définis. En cas de difficulté persistante, la licence exclusive peut devenir non exclusive." }
         ]
       }
     ]
-  },
-  "application": {
-    "title": "Dossier de <highlight>Candidature</highlight>",
-    "subtitle": "Expansion Internationale Helloopass OS",
-    "steps": {
-      "step1": "Coordonnées",
-      "step2": "Business",
-      "step3": "Territoire",
-      "step4": "Expérience",
-      "step5": "Finance",
-      "step6": "CV",
-      "step7": "Validation"
-    },
-    "form": {
-      "step_label": "Étape {{count}}",
-      "personal": "Coordonnées Personnelles",
-      "personal_desc": "Informations porteur de projet.",
-      "first_name": "Prénom",
-      "last_name": "Nom",
-      "email": "Email Direct",
-      "phone": "Téléphone",
-      "business": "Informations Business",
-      "business_desc": "Détails de votre structure actuelle.",
-      "company_name": "Nom de l'entreprise",
-      "sector": "Secteur d'activité",
-      "target": "Territoire Visé",
-      "target_desc": "Le pays visé pour l'exclusivité.",
-      "target_select": "SÉLECTIONNEZ VOTRE TERRITOIRE",
-      "target_note": "En devenant franchisé pour <highlight>{{country}}</highlight>, vous serez l'unique fournisseur de l'OS.",
-      "choose_country": "Choisir un pays...",
-      "exp": "Expérience & Motivations",
-      "exp_desc": "Votre parcours et votre intérêt pour Helloopass.",
-      "exp_years": "Années d'expérience",
-      "existing": "Franchise existante ?",
-      "network": "Réseau actuel (si applicable)",
-      "motivations": "Vos motivations",
-      "motivations_placeholder": "Pourquoi souhaitez-vous rejoindre le réseau Helloopass ?",
-      "finance": "Capacité Financière",
-      "finance_desc": "Évaluation des ressources pour le déploiement.",
-      "budget": "Budget Global (USD/EUR)",
-      "deposit": "Acompte disponible immédiatement",
-      "payment": "Proposition d'échelonnement",
-      "finance_note": "Note: Ces informations sont confidentielles et servent uniquement à évaluer la faisabilité du projet.",
-      "cv": "Upload CV",
-      "cv_desc": "Fichier au format PDF exclusivement.",
-      "cv_choose": "Cliquez pour choisir un fichier",
-      "cv_max": "Maximum 5MB • PDF uniquement",
-      "consent": "Consentement Final",
-      "consent_desc": "Dernière étape.",
-      "consent_legal": "En soumettant ce formulaire, vous reconnaissez que les informations fournies sont exactes et véridiques. Helloopass OS s'engage à traiter vos données de manière confidentielle conformément à sa politique de confidentialité.",
-      "consent_check": "Je certifie que les informations fournies sont exactes. J'accepte le traitement de mes données pour l'examen de ma candidature.",
-      "back": "Retour",
-      "next": "Suivant",
-      "submit": "Soumettre Dossier",
-      "processing": "Traitement...",
-      "placeholders": {
-        "first_name": "Jean",
-        "last_name": "Dupont",
-        "email": "jean@exemple.com",
-        "phone": "+33 6 00 00 00 00",
-        "company_name": "Acme Corp",
-        "sector": "Fintech, NGO, Commerce...",
-        "territory": "le territoire",
-        "budget": "100,000 USD",
-        "deposit": "25,000 USD"
-      }
-    },
-    "success": {
-      "title": "Candidature Reçue !",
-      "desc": "Félicitations {{name}}, votre dossier pour <highlight>{{country}}</highlight> a été transmis.",
-      "id_label": "Votre ID Candidat",
-      "contact_note": "Un expert franchise vous contactera sous 3 à 5 jours.",
-      "home": "Retour à l'accueil",
-      "default_name": "Candidat",
-      "default_country": "Votre Territoire"
-    }
-  },
-  "contact": {
-    "title": "Contactez-<highlight>nous</highlight>",
-    "description": "Une question stratégique ou besoin de précisions sur le déploiement technique ? Nos bureaux d'Amsterdam et nos experts régionaux sont à votre écoute.",
-    "info": {
-      "email": "Email Direct",
-      "email_desc": "Réponse sous 24h",
-      "hq": "Siège Social",
-      "hq_desc": "World Open Services R&D BV <br/> Amsterdam, Pays-Bas",
-      "support": "Support",
-      "support_desc": "Lundi - Vendredi <br/> 09:00 - 18:00 (GMT+1)"
-    },
-    "emergency": {
-      "title": "Canal d'urgence",
-      "desc": "Investisseur institutionnel ou représentant gouvernemental ?",
-      "cta": "Accès Prioritaire"
-    },
-    "form": {
-      "name": "Nom complet",
-      "email": "Email professionnel",
-      "phone": "Téléphone",
-      "territory": "Territoire d'intérêt",
-      "territory_placeholder": "SÉLECTIONNEZ UN PAYS",
-      "message": "Votre message",
-      "message_placeholder": "Expliquez-nous brièvement votre projet...",
-      "submit": "Envoyer le message",
-      "success": "Message envoyé avec succès ! Un expert franchise vous contactera sous 24h.",
-      "placeholders": {
-        "name": "Jean Dupont",
-        "email": "jean@exemple.com",
-        "phone": "+33 6 00 00 00 00"
-      }
-    }
   }
 }
